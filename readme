@@ -1,0 +1,90 @@
+Licence
+-------
+
+CRS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with CRS.  If not, see <http://www.gnu.org/licenses/>.
+
+
+Dependencies
+------------
+
+CRS has been written for and tested on Linux.
+It depends on the following:
+
+gcc (C compiler)
+mpicc (MPI compiler, for running MPI code)
+openMP libraries
+GNU scientific libraries (http://www.gnu.org/software/gsl/)
+
+some functionalities require the Numerical Recipes (source code in C). http://www.nr.com/
+
+The code was tested with gcc version 4.4.0.
+
+
+Installation
+------------
+
+The following steps are needed to install CRS:
+
+1. Install the GNU Scientific Libraries (http://www.gnu.org/software/gsl/)
+   The compiler expects the libraries to be located /usr/local/lib, and the source code at /usr/local/include/gsl/
+
+2. Set up paths to the numerical recipes source code in the script scripts/config_numrec.sh (more details in the script itself), and run it.
+   If you don't plan to use spline interpolation for continuous stresses, you can skip this step.
+
+3. Configure makefiles for compiling serial or parallel(mpi) version by running the script switch_compiler.sh.
+   For the serial version, type: scripts/switch_compiler.sh mpicc2gcc (choose the option if you are not running CRS on a cluster)
+   For the MPI version, type: switch_compiler.sh gcc2mpicc
+   By default, the makefiles are configured to compile the serial version of the code.
+   You will need to run this script again to compile a different version of the code (serial/parallel) in the future.
+
+4. Compile the code:
+    cd Release
+    make clean
+    make all
+    cd ..
+
+  This will create file run_crs or run_mpi_crs, depending on whether you are compiling the serial or parallel version. 
+
+
+Running the program
+-------------------
+
+1. Serial version:   
+
+	Release/run_crs [options] name_of_input_file
+
+   [options] are one of the following:
+	-v --verbose: more output will be printed on the screen, including the name of each function producing output.
+	-q, --quiet: screen messages are suppressed.
+
+
+2. MPI version:
+
+	mpirun -n N Release/run_mpi_crs [options] name_of_input_file
+
+   where N is the desired no. of ranks.
+
+
+CRS can be tested by running: 
+
+	Release/run_crs tutorial/input/input.txt 
+
+and checking that the output (tutorial/output/) is the same as the folder tutorial/output_reference.
+
+
+
+Additional documentation
+------------------------
+
+The formats of the input files and output files are described in doc/inputformats.readme and doc/outputformats.readme
+Template input files are provided in the folder: doc/examples/
+The folder: tutorial/ contains input and output files for a tutorial described in the file tutoria/tutorial.pdf
+
+
+

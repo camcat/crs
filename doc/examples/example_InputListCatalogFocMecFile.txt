@@ -1,0 +1,13 @@
+# This file lists catalogs of focal mechanisms to be used for different regions (set of grid points in ForecastTemplate).
+# The format is as follows:
+# No. of files
+# Path to file 1
+# Path to file 2
+# Path to file 3
+# ...
+#
+# The Nth file is associated with the grid points which have index N in the lst column of the ForecastTemplate file (see inputformats.readme)
+3
+input_testcases/focmecfile1.dat
+input_testcases/focmecfile2.dat
+input_testcases/focmecfile3.dat

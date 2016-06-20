@@ -1,0 +1,26 @@
+# This file lists the slip models (or tensile sources) for aseismic events, and describes their temporal evolution.
+# It has the following format:
+# 1. number of events
+# 2. This line can have 3 alternatives:
+# 	  A): format	lin
+# 	  B): format 	log 	T0
+#	  C): format 	splines
+#	format is the format of the slip models (pscmp, fsp, farfalle)
+#	NOTE: if the model has a tensile component the format "pscmp" must be used.
+#   	if the second argument is "lin", will assume linear evolution of stress between time steps.
+#	if the second argument is "log", it will use a function of the form: s(t)= C*log(1+t/T0), where T is given and C is a normalizing constant. A single snapshot must be given. T0 is in days.
+#	if the second argument is "splines", it will perform splines interpolation between snapshots. Multiple snapshots must be provided.
+# 3. reference time for ev. 1		no. of snapshots models (lines to read) until next event
+# 4. time	path_to_file 
+# 5. time	path_to_file
+# ...
+# reference time for ev. 2              no. of snapshots models (lines to read) until next event
+#
+# time if the time (days) to which each files refers, from the reference time for that event.
+# Note that less memory/CPU time will be used if these models have the same geometry as the coseismic slip model at the corresponding time.
+2
+pscmp	log	14.2653
+2004-09-28T17:15:24Z    1
+274.0   input_testcases/testD/Parkfield_AftB.dat
+2004-09-29T17:15:24Z    1
+274.0	input_testcases/testD/Parkfield_Aft.dat

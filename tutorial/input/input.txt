@@ -1,0 +1,12 @@
+OutputForecastFile=tutorial/output/out
+Logfile=tutorial/output/log
+InputModelParametersFile=tutorial/input/parameters.txt
+InputCatalogFocMecFile=tutorial/input/YSH_preParkfield.dat
+ForecastStartDate=2004-10-10T17:15:24Z
+ForecastEndDate=2004-11-10T17:15:24Z
+IssueDate=2004-10-10T17:15:24Z
+InputCatalogFile=tutorial/input/ANSS_Park.dat
+InputListSlipModels=tutorial/input/slipmodels.txt
+ForecastTemplate=tutorial/input/template_grid.dat
+RandomSeedValue=-37284630
+InversionStartDate=2004-09-28T17:15:24Z

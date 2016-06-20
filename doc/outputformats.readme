@@ -1,0 +1,67 @@
+#------------------------------------------------------#
+#    Description of the columns in the output files    #
+#------------------------------------------------------#
+
+Output files are named: [OutputForecastFile]_[filetype].dat, where OutputForecastFile is defined by the user in the input file, and filetype refers to the data (gridded seismicity, temporal evolution, stress field etc).
+In the examples below, "OutputForecastFile=output".
+
+
+
+output_foremap.dat
+------------------
+Seismicity forecast, binned in space and magnitude.
+The file has the same format as the input template file (ForecastTemplate in input file).
+Seismicity rate (9th/6th column) has units of (earthquakes/day).
+
+
+output_LLevents.dat
+-------------------
+List of events in the forecast interval and their individual log likelihood value, defined as LLev= log(Ri), with Ri being the modelled seismicity rate at the location and time of the event. Note that Ri is calculated at the exact time of each event (not a time bin). It is expressed as daily rate of events in the forecast magnitude range.
+File format:
+time	lat	lon	depth	LLev
+time is in days since IssueTime.
+
+
+output_LogLikelihood.dat
+------------------------
+Summary of the LogLikelihood, with one line for each combination of input slip models. The Loglikelooh refers to the forecast period.
+File format:
+Asig	 ta	 r	 LL	mod
+
+Asig, ta are the rate state parameters.
+r is the steady state background rate (daily no. of events in the entire domain).
+LL the LogLikelihood
+mod is a number specifying the slip model combination. The slip models in each combination are listed in the file output_slipmodlist.dat
+
+
+output_ParamSearch.dat
+----------------------
+Format:
+Asig	ta	r	LL	mod
+
+Same as output_LogLikelihood, but for all parameters tested during the grid search. The LogLikelihood values refer to the inversion period.
+
+
+output_foremap_all.dat
+----------------------
+Forecast for all Monte Carlo iterations. Each line is one iteration, each column is a grid point.
+
+
+output_forecast.dat
+-------------------
+Forecasted seismicity as function of time, integrated over space and magnitudes.
+Forecast:
+time	number_ev	rate
+
+time is the end time of each time bin. number_ev if the number of events in the time bin, rate is the seismicity rate.
+
+
+output_forecast_all_nev.dat, output_forecast_all_rate.dat
+-----------------------------------------------------------
+Number of events and seismicity rates for each Monte Carlo iteration. Each line is one iteration, each column a time step (as in output_forecast).
+
+
+
+NOTE:
+All files except LogLikelihood and ParamSearch are produced individually for each slip provided, and names as follows: outputN_LLevents, where N is the slip model combination number. The slip models in each combination are listed in the file output_slipmodlist.dat.
+

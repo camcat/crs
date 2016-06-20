@@ -1,0 +1,102 @@
+#=============================================#
+#       Coulomb stress parameters             #
+#=============================================#
+#
+# 1. Msource, extra_dist: Minimum magnitude of events to be used as stress sources; extra distance oudside model domain for which sources should be included (both horizontal/vertical distance, km).
+# 2. source_mode_focmec (iso/fm), source_mode_nofocmec (no/iso/fix):
+#    source_mode_focmed controls how sources with a known focal mechanisms are treated: as isotropic sources (iso) or with synthetic slip models from the focal mechanisms (fm).
+#    source_mode_nofocmec controls out a known focal mechanism are treated: ignored (no), as isotropic sources (iso), with synthetic slip models from the uniform regional mechanism (fix).
+#	note: if source_mode_focmec=iso, source_mode_nofocmec will also automatically be set to "iso" (since there is no distinction between the two event types).
+# 3. fm_res: Resolution (patch length, km) of the synthetic slip models created from focal mechanisms. If the resolution is small enough that a multiple-patch model is created, this model will be tapered on each side (instead of simply uniform slip).
+# 4. DCFS_min, DCFS_cap:
+#    DCFS_min is the smallest Coulomb stress change which should be computed (used to select a subset of grid points for each source and reduce calculations).
+#    DCFS_cap: values of Coulomb stress change with absolute exceeding DCFS_cap will be capped to DCFS_cap (to avoid singularities in Okada solutions). Pa.
+# 5. res_xy, res_z: minimum internal horizontal/vertical model resolution. Will be ignored if larger than the cell size in the ForecastTemplate file.
+4.0	0.0
+fm	iso
+3000
+80      1e6
+20.0	20.0
+#=============================================#
+#          Parameter Inversion	              #
+#=============================================#
+# Section controling the inversion of Rate-and-State parameters (Asigma, ta, r0).
+# The inversion is based on maximizing the LogLikelihood, using a simple a grid search algorithm. 
+# For details, see Hainzl et al. (2009), Appendix A1.
+#
+# 1. LLinversion: Flag indicating if inversion for RS parameters should be performed.
+#    If LLinversion is set to 0, the following three lines should indicate the default values of rate and state parameters (and fixX=0 will be ignored).
+# 2. fixr0, [r0]: fixr is a flag indicating if r0 should be inverted for; if set to 0, it should be followed by the default value of r0.
+#    r0 is the daily rate of earthquakes in the domain; if a non-homogeneous background rate is used, the rate in each cell is normalized to give total rate r0.
+# 3. This line has two possible forms (without commas):
+#	fixAsig, Asig0:	is fixAsig=1 or LLinversion=0, Asig0 is the default value [this option should be used if LLinversion=0]. Unit=Pa.
+#	fixAsig, Asig_min, Asig_max, nAsig, Asig_stepmode: if fixAsig=0, Asig_(min/max) the lower/upper bound of Asig, and nAsig the number of values to be tested.
+#    	Asig_step_mode is one of: lin/log, and determines whether the steps between Asig_(min/max) will be linear or logarithmic.
+# 4. This line has two possible forms:
+#       fixta, ta0: is fixta=1 or LLinversion=0, ta0 is the default value [this option should be used if LLinversion=0]. Unit=days.
+#       fixta, ta_min, ta_max, nta, ta_stepmode: if fixta=0, the ta_(min/max) are the lower/upper bound of ta, and the nta number of values to be tested.
+#    ta_step_mode is one of: lin/log, and determines whether the steps between Asig_(min/max) will be linear or logarithmic.
+#	fixAsig, Asig_min, Asig_max, nAsig: if fixAsig=1, Asig_(min/max) the lower/upper bound of Asig, and nAsig the number of values to be tested.
+# 5. Mc: min. magnitude of events to be used for LogLikelihood calculations. 
+#       if Mc>20, the program will estimate the catalog completeness magnitude.
+# 6. Controls the time windows to be excluded from the LogLikelihood calculation due to incomplete catalog.
+#    tw, Magmain: tw=length of time window to skip (days); Magmain= min. magnitude of mainshocks following which a time window should be skipped;
+#    If no time should be skipped, set Mag_main to a large value (setting Mag_main to a small value and tw=0.0 leads to longer computation times).
+1
+1      0.022
+0      8000   12000   2	lin
+0      7000   10000   2	lin
+2.0
+0.0012  5.95
+#=============================================#
+#       Treatment of Uncertainties            #
+#=============================================#
+# This section controls the treatment of uncertainties in the Coulomb stress field.
+# For a description of each type uncertainty is treated, see Cattania et al. (2014).
+# 1. Receiver fault orientation.
+#    options: oops (optimally oriented planes), fixed (uses the uniform reginal field plane given below), focmec (uses the planes from the focal mechanisms catalog, performing Monte Carlo iterations over the available mechanisms).
+# 2. grid_error (0/1): flag indicating if the error due to finite grid size should be calculated.
+# 3. Nsur: number of Monte Carlo iterations.
+focmec
+1
+10
+#=============================================#
+#             Other parameters                #
+#=============================================#
+#
+# 1. output_forecast, dt: flag indicating if forecast should be produced; time step used for output of seismicity temporal evolution.
+# 2-5. Expected difference between the ZMAP earthquake catalog (InputCatalogFile) and the catalog of focal mechanisms (InputCatalogFocMecFile): these values are used as tolerance when associating focal mechanisms to the ZMAP events.
+# 2. dt: time tolerance (days)
+# 3. dMag: magnitude tolerance
+# 4. dxy: horizontal distance tolerance (km)
+# 5. dz: vertical distance tolerance (km)
+#
+# 6. smoothing: minimum smoothing distance used for calculating background rate from a catalog (if parameter InputBackgroundRateCatalog is used).
+1	0.1
+0.0005
+0.9
+1
+5
+5.0
+#===========================================================#
+# 	Parameters Describing crustal properties	    #
+#===========================================================#
+# Elastic paremeters: lambda, mu (MPa)
+# Friction coefficient, Skepton coefficient
+# Uniform regional field description:	strike, dip, rake
+# Choice between "paxis" and "oop", two ways in which the regional stress field can be described: 
+#	if "paxis", the following 3 lines give amplitude (MPa), strike, dip of the principal axis:
+#		sigma1	strike1	dip1
+#               sigma2  strike2 dip2
+#               sigma3  strike3 dip3
+#	if "oop", the following lines give the amplitudes of the principal axis and the strike, dip and rake
+#	of a master mechanism, assumed to be optimally oriented according to the Coulomb failure criterion.
+#		sigma1 sigma2 sigma
+#
+31226	26624
+0.3	0.0
+330.000  89.000  180.000
+paxis
+-5.0	6.646198	-0.596911
+5.0	96.654556	-0.802279
+0.0	60.000014	89.000049

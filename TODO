@@ -1,0 +1,34 @@
+Known Issues:
+-------------
+
+- The script config_numrec.sh only works from bash.
+
+- Optimally oriented planes are currently not implemented if aseismic stresses are included (this is because OOPS would have to calculated at each time step based on the time-varying stress field, and I haven't got around to doing it). If strike and dip of receiver faults are fixed, the optimal rake can be used, but currently it is calculated using the background stress field and the stress change from each earthquake, and not the full stressing history. This would likely not make a significant difference if aseismic stresses are significantly smaller than seismic+background stresses in the time considered.
+
+
+Performance related:
+--------------------
+
+- More OMP parallelization can be implemented when calculating background rate from seismicity (src/seis/smoothed_rate_Helmstetter.c)
+- The variable all_gammas can be very large (grid point x Monte Carlo iterations). Since it is possible to run CRS without it, there should be a check and if not enough memory is available this variable should bot be used.
+- in src/general/setup.c, some memory could be saved by allowing individual snapshots of allslip_xxx to be NULL.
+- Some suggestions on further reducing memory usage are given in src/okada/okadaDCFS.c (flagged as 'todo')
+
+
+New features:
+-------------
+
+- Allowing input of pre-calculated stress fields (instead of calculating them from slip models). I plan to do this by summer 2016.
+- Alternative declustering algorithms.
+- Alternative methods to estimate the completeness magnitude.
+- Dynamically refine mesh in the vicinity of stress sources.
+- Allow space-dependent (at least depth-dependent) rate-state parameters.
+- In src/general/CRS_LogLikelihood.c, there is an hardwired flag that can be activated to print out forecasts for single snapshots in time (all_snapshots, normally set to 0). This should be tested, implemented in MPI, and the flag should not be hardwired.
+- In alternative to using an external grid, could calculate one internally based on user-provided boundaries and cell sizes.
+
+
+Others:
+-------
+
+- The size of char[] variables (in main.c) should not be hardwired; or at least, should check if they are large enough.
+- output should be in scientific format.

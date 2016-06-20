@@ -1,0 +1,115 @@
+Below is a description of the formats of various input files.
+They correspond to the following fields in the input file:
+
+1.ForecastTemplate
+2.InputBackgroundRateGrid
+3.FixedMecFile*
+4.IputCatalogFile*
+5.InputBackgroundRateCatalog*
+6.InputCatalogFocMecFile*
+
+	*These fields are optional.
+
+-----------------------------------------------------------------
+
+1. Forecast Template
+--------------------
+
+This file provides a template for the output forecast. There are two options:
+(1) The input grid is made of equally spaced lon-lat-depth bins, arranged in a cuboid (the total no.of points is nlat x nlon x ndep).
+    This format can be refined to obtain a higher resolution for Coulomb stress calculations (given in InputModelParameters file).
+(2) The input grid is a cloud of points, with any arrangement. This format can not be refined internally.
+
+In the first case, the format is the same as the CSEP forecast format:
+
+	1.Minimum Longitude [deg]
+	2.Maximum Longitude [deg]
+	3.Minimum Latitude [deg]
+	4.Maximum Latitude [deg]
+	5.Depth Top [km]
+	6.Depth Bottom [km]
+	7.Minimum Magnitude
+	8.Maximum Magnitude
+	[9.Index of focal mechanisms catalog] *
+	[10.Mask Bit] **
+
+	* this column is only used if InputListCatalogFocMecFile is given in the input file. Otherwise it is optional.
+	** the content of this lines doesn't matter for the template file, and the column is optional.
+
+	Columns 1-6 indicate the edges of the bins.
+	Column 9 is the index of the files listed in InputListCatalogFocMecFile. 
+	Each of these files is a set of focal mechanisms that will be sampled for the grid point.
+
+In the second case, a 5+column file should be provided, as follows:
+
+        1.Longitude [deg]
+        2.Latitude [deg]
+        3.Depth km]
+        4.Minimum Magnitude
+        5.Maximum Magnitude
+        [6.Index of focal mechanisms catalog] * 
+	[7.Mask Bit] *
+
+	* this column is only used if InputListCatalogFocMecFile is given in the input file. Otherwise it is optional.
+	** the content of this lines doesn't matter for the template file, and the column is optional.
+
+	Columns 1-3 indicate the calculation points.
+	Note that the output seismicity rates/cumulative number of events are calculated at single points, and not adjusted for point density.
+
+
+2. InputBackgroundRateGrid
+--------------------------
+File containing the gridded background seismicity.
+Same format as ForecastTemplate, but column 9 or 6 contains the Seismicity Rate instead of the focal mechanism index, and it is not optional.
+
+
+3. FixedMecFile
+---------------
+File containing gridded focal planes.
+The file must have the same number of grid points as the ForecatTemplate file, and has 3 columns: 
+strike [degress]	dip[degrees]	rake[degrees]
+
+
+4.InputCatalogFile
+5.InputBackgroundRateCatalog
+--------------------------
+Catalog files. ZMAP format:
+
+1.Longitude [deg]
+2.Latitude [deg]
+3.Decimal year (e.g., 2005.5 for July 1st, 2005)
+4.Month
+5.Day
+6.Magnitude
+7.Depth [km]
+8.Hour
+9.Minute
+10.Second
+[11.Horizontal error]*
+[12.Depth error]*
+[13.Magnitude error]*
+
+* optional columns. If not given, will use default values: 1km (hor. error), 5km (vert. error), 0.1 (magnitude error). There are hardwired in the source file: code/src/inp_out/read_zmap.c
+
+6.InputCatalogFocMecFile
+----------------------
+The catalog of focal mechanisms has the format of the GeoNet cvs files (but with tab/space separated columns).
+following columns:
+
+1.EVENT_ID	
+2.Date (format: YYYYMMDDhhmmss, e.g. 20150930152322= 30th Sept. 2015 15:23:22).
+3.Latitude
+4.Longitude
+5.strike1 (degrees)
+6.dip1 (degrees)
+7.rake1 (degrees)
+8.strike2
+9.dip2
+10.rake2
+11.Mw
+12.depth
+[Additional columns will be ignored]
+
+strike1, dip1 will be used to create synthetic slip models for events which should be included as sources.
+rakes are not used for receiver faults: Coulomb stresses are calculated in the slip direction on which the total shear stress is largest ('optimal rake').
+This is hardwired but determined by a flag in the code ('optimal_rake' in src/general/clculateDCFSperturbed.c).

@@ -1,0 +1,103 @@
+# This is an example input file for the program CRS
+#
+# written by Camilla Cattania (GeoForschungsZentrum Potsdam; camcat@gfz-potsdam.de)
+#	  and Fahad Khalid (Hasso Plattner Institute, Potsdam)
+#	  2015
+#
+# described in: Cattania, C.; Khalid, F., A parallel code to calculate seismicity evolution induced by time dependent, heterogeneous Coulomb stress changes, Computers and Geosciences
+#
+# -----------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------
+#
+# The input file contains the following fields:
+#
+# (A) Compulsory fields:
+#-----------------------
+#
+# 1.IssueDate (format: YYYY-MM-DDTHH:MM:SSZ) 
+#   This represents the time in which a forecast is supposedly produced: only data up to this point in time will be used for calculations (hence it must be greater than any stress source to be included). It can be the actual date for a prospective experiment, or a past date for a pseudo-prospective one.
+#   It is also used as the end time for the parameter inversion if InversionEndDate is not given.
+#
+# 2.ForecastStartDate
+# 3.ForecastEndDate
+#   Start and end time of the forecast. 
+#   If they are smaller than IssueTime, all stress sources during this period are used (even those after ForecastStartDate).
+#
+# 4.InversionStartDate
+#   Start time of the inversion period; must be smaller than IssueTime. Only stress sources after this time are included for the parameter inversion.
+#
+# 5.ForecastTemplate
+#   Path to a gridded file in CSEP forecast format, on which the output forecast is based.
+#   see inputformats.readme for a description of the format.
+#
+# 6.RandomSeedValue
+#   A negative integer to be used as starting seed.
+#
+# 7.InputModelParametersFile
+#   Path to the parameter file.
+#   see file: example_InputModelParametersFile.txt
+#
+# (B) Optional fields:
+#---------------------
+#
+# 8.InputCatalogFile
+#   Path to a catalog in ZMAP format. The catalog is used both to find earthquakes as stress sources, and to calculate the log-likelihood.
+#   The choice of which earthquakes are used as stress sources depends on the parameters set in the parameter file.
+#   see inputformats.readme for a description of the format.
+#
+# 9.OutputForecastFile
+#   Path to output files (without extension). The file name given here will be appended by suffix referring to different file content: "_cmbmap.dat", "_forecast.dat" etc. If not given, it will be set to "output".
+#
+# 10.Logfile
+#   Path to the log file. If not given, there will be no log file.
+#
+# 11.InputCatalogFocMecFile
+#  Path to catalog of focal mechanisms in GMT format. All mechanisms before IssueTime will be used as sample of focal mechanisms.
+#  Focal mechanisms in this file are also matched to events in InputCatalogFile and used to create synthetic slip models for events to be used as stress sources. The tolerance for matching the two files is set in the parameter file.
+#   see inputformats.readme for a description of the format.
+#
+# 12.InputListCatalogFocMecFile
+#   Path to a file listing several focal mechanisms analogous to InputCatalogFocMecFile: this should be used if the region is divided into multiple blocks with different receiver faults.
+#   see example_InputListCatalogFocMecFile.txt for a description of the format.
+#
+# 13.FixedMecFile
+#   Path to a file containing values of strike and dip for each grid point.
+#   see inputformats.readme for a description of the format.
+# 
+# 14.InputListSlipModels
+#   Path to a file listing the coseismic slip models available, which will be matched to events in InputCatalogFile.
+#   see example_InputListSlipModels.txt for a description of the format.
+#
+# 15.InputListAseismicModels
+#   Path to a file listing afterslip models available.
+#   see example_InputListAseismicModels.txt for a description of the format.
+#
+# 16.InputBackgroundRateGrid
+#   Path to a file containing gridded background seismicity rates.
+#   see inputformats.readme for a description of the format.
+#
+# 17.InputBackgroundRateCatalog
+#   Path to a ZMAP catalog that will be used to estimate spatially variable background seismicity rate.
+#   see inputformats.readme for a description of the format.
+#
+# 18.InversionStartDate
+#    Start time of the inversion period; must be smaller than IssueTime. Only stress sources after this time are included for the parameter inversion.
+#    This parameter must be given if the parameter inversion is performed (LLinversion=1 in the parameter file).
+#
+# 19.InversionEndDate
+#   End of the time period used for parameter inversion.
+#
+# Below is an example:
+OutputForecastFile=output
+Logfile=output.log
+InputModelParametersFile=example_InputModelParametersFile.txt
+IssueDate=2004-09-30T17:15:24Z
+InversionStartDate=2004-09-28T17:15:24Z
+ForecastStartDate=2004-09-30T17:15:24Z
+ForecastEndDate=2005-10-15T17:15:24Z
+InputCatalogFile=input/example/catalog.dat
+InputListSlipModels=input/example/example_InputListSlipModels.txt
+InputCatalogFocMecFile=input/example/focmecfile.dat
+ForecastTemplate=input/example/template.dat
+RandomSeedValue=-37284630
+InputListAseismicModels=input/example/aslipmodels.dat

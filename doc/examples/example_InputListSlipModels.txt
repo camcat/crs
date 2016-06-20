@@ -1,0 +1,23 @@
+# This file lists the slip model for seismic sources.
+# It hs the following format:
+#
+# 1. number of events
+# 2. format	flag_geom
+#	format can be one of: pscmp/farfalle/fsp
+#	flag_geom indicates if all models have the same geometry (this saves memory and CPU time).
+# 3.time(1st event)    magnitude(1st event)	number of slip models(1st event)
+# 4.cuts_surf	 path to first slip model
+# 5.cuts_surf	 path to second slip model
+# ...
+# time(2nd event)    magnitude(2nd event)    number of slip models(2nd event)
+# ...
+# ...
+# Cuts_surf is a flag indicating that the fault cuts the surface, i.e. it is not a blind fault.
+# If set to 1, CRS will assume that the free surface is at the depth of the top of the slip model (to avoid compressional stresses above the fault which would otherwise occur). All grid points in ForecastTemplate should be below this depth!
+#
+2
+fsp	0	
+2004-09-28T17:15:24Z	6.0	1
+0 input/slipmodels/fsp/s2004PARKFI01CUST.fsp
+2004-09-29T17:15:24Z    6.0     1
+0 input/slipmodels/fsp/s2004PARKFI01DREG.fsp  

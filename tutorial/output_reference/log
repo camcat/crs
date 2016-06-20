@@ -1,0 +1,276 @@
+Mon Nov  2 02:25:30 UTC 2015
+!--------------------------!
+!------input file: --------!
+!--------------------------!
+OutputForecastFile=tutorial/output/out
+Logfile=tutorial/output/log
+InputModelParametersFile=tutorial/input/parameters.txt
+InputCatalogFocMecFile=tutorial/input/YSH_preParkfield.dat
+ForecastStartDate=2004-10-10T17:15:24Z
+ForecastEndDate=2004-11-10T17:15:24Z
+IssueDate=2004-10-10T17:15:24Z
+InputCatalogFile=tutorial/input/ANSS_Park.dat
+InputListSlipModels=tutorial/input/slipmodels.txt
+ForecastTemplate=tutorial/input/template_grid.dat
+RandomSeedValue=-37284630
+InversionStartDate=2004-09-28T17:15:24Z
+
+
+!--------------------------!
+!------param file: --------!
+!--------------------------!
+#=============================================#
+#       Coulomb stress parameters             #
+#=============================================#
+#
+# 1. Msource, extra_dist: Minimum magnitude of events to be used as stress sources; extra distance oudside model domain for which sources should be included (both horizontal/vertical distance, km).
+# 2. source_mode_focmec (iso/fm), source_mode_nofocmec (no/iso/fix):
+#    source_mode_focmed controls how sources with a known focal mechanisms are treated: as isotropic sources (iso) or with synthetic slip models from the focal mechanisms (fm).
+#    source_mode_nofocmec controls out a known focal mechanism are treated: ignored (no), as isotropic sources (iso), with synthetic slip models from the uniform regional mechanism (fix).
+#	note: if source_mode_focmec=iso, source_mode_nofocmec will also automatically be set to "iso" (since there is no distinction between the two event types).
+# 3. fm_res: Resolution (patch length, km) of the synthetic slip models created from focal mechanisms. If the resolution is small enough that a multiple-patch model is created, this model will be tapered on each side (instead of simply uniform slip).
+# 4. DCFS_min, DCFS_cap:
+#    DCFS_min is the smallest Coulomb stress change which should be computed (used to select a subset of grid points for each source and reduce calculations).
+#    DCFS_cap: values of Coulomb stress change with absolute exceeding DCFS_cap will be capped to DCFS_cap (to avoid singularities in Okada solutions). Pa.
+# 5. res_xy, res_z: minimum internal horizontal/vertical model resolution. Will be ignored if larger than the cell size in the ForecastTemplate file.
+4.0	0.0
+fm	iso
+3000
+80      1e6
+20.0	20.0
+#=============================================#
+#          Parameter Inversion	              #
+#=============================================#
+# Section controling the inversion of Rate-and-State parameters (Asigma, ta, r0).
+# The inversion is based on maximizing the LogLikelihood, using a simple a grid search algorithm. 
+# For details, see Hainzl et al. (2009), Appendix A1.
+#
+# 1. LLinversion: Flag indicating if inversion for RS parameters should be performed.
+#    If LLinversion is set to 0, the following three lines should indicate the default values of rate and state parameters (and fixX=0 will be ignored).
+# 2. fixr0, [r0]: fixr is a flag indicating if r0 should be inverted for; if set to 0, it should be followed by the default value of r0.
+#    r0 is the daily rate of earthquakes in the domain; if a non-homogeneous background rate is used, the rate in each cell is normalized to give total rate r0.
+# 3. This line has two possible forms (without commas):
+#	fixAsig, Asig0:	is fixAsig=1 or LLinversion=0, Asig0 is the default value [this option should be used if LLinversion=0]. Unit=Pa.
+#	fixAsig, Asig_min, Asig_max, nAsig, Asig_stepmode: if fixAsig=0, Asig_(min/max) the lower/upper bound of Asig, and nAsig the number of values to be tested.
+#    	Asig_step_mode is one of: lin/log, and determines whether the steps between Asig_(min/max) will be linear or logarithmic.
+# 4. This line has two possible forms:
+#       fixta, ta0: is fixta=1 or LLinversion=0, ta0 is the default value [this option should be used if LLinversion=0]. Unit=days.
+#       fixta, ta_min, ta_max, nta, ta_stepmode: if fixta=0, the ta_(min/max) are the lower/upper bound of ta, and the nta number of values to be tested.
+#    ta_step_mode is one of: lin/log, and determines whether the steps between Asig_(min/max) will be linear or logarithmic.
+#	fixAsig, Asig_min, Asig_max, nAsig: if fixAsig=1, Asig_(min/max) the lower/upper bound of Asig, and nAsig the number of values to be tested.
+# 5. Mc: min. magnitude of events to be used for LogLikelihood calculations. 
+#       if Mc>20, the program will estimate the catalog completeness magnitude.
+# 6. Controls the time windows to be excluded from the LogLikelihood calculation due to incomplete catalog.
+#    tw, Magmain: tw=length of time window to skip (days); Magmain= min. magnitude of mainshocks following which a time window should be skipped;
+#    If no time should be skipped, set Mag_main to a large value (setting Mag_main to a small value and tw=0.0 leads to longer computation times).
+1
+1      0.022
+0      8000   12000   2	lin
+0      7000   10000   2	lin
+2.0
+0.0012  5.95
+#=============================================#
+#       Treatment of Uncertainties            #
+#=============================================#
+# This section controls the treatment of uncertainties in the Coulomb stress field.
+# For a description of each type uncertainty is treated, see Cattania et al. (2014).
+# 1. Receiver fault orientation.
+#    options: oops (optimally oriented planes), fixed (uses the uniform reginal field plane given below), focmec (uses the planes from the focal mechanisms catalog, performing Monte Carlo iterations over the available mechanisms).
+# 2. grid_error (0/1): flag indicating if the error due to finite grid size should be calculated.
+# 3. Nsur: number of Monte Carlo iterations.
+focmec
+1
+10
+#=============================================#
+#             Other parameters                #
+#=============================================#
+#
+# 1. output_forecast, dt: flag indicating if forecast should be produced; time step used for output of seismicity temporal evolution.
+# 2-5. Expected difference between the ZMAP earthquake catalog (InputCatalogFile) and the catalog of focal mechanisms (InputCatalogFocMecFile): these values are used as tolerance when associating focal mechanisms to the ZMAP events.
+# 2. dt: time tolerance (days)
+# 3. dMag: magnitude tolerance
+# 4. dxy: horizontal distance tolerance (km)
+# 5. dz: vertical distance tolerance (km)
+#
+# 6. smoothing: minimum smoothing distance used for calculating background rate from a catalog (if parameter InputBackgroundRateCatalog is used).
+1	0.1
+0.0005
+0.9
+1
+5
+5.0
+#===========================================================#
+# 	Parameters Describing crustal properties	    #
+#===========================================================#
+# Elastic paremeters: lambda, mu (MPa)
+# Friction coefficient, Skepton coefficient
+# Uniform regional field description:	strike, dip, rake
+# Choice between "paxis" and "oop", two ways in which the regional stress field can be described: 
+#	if "paxis", the following 3 lines give amplitude (MPa), strike, dip of the principal axis:
+#		sigma1	strike1	dip1
+#               sigma2  strike2 dip2
+#               sigma3  strike3 dip3
+#	if "oop", the following lines give the amplitudes of the principal axis and the strike, dip and rake
+#	of a master mechanism, assumed to be optimally oriented according to the Coulomb failure criterion.
+#		sigma1 sigma2 sigma
+#
+31226	26624
+0.3	0.0
+330.000  89.000  180.000
+paxis
+-5.0	6.646198	-0.596911
+5.0	96.654556	-0.802279
+0.0	60.000014	89.000049
+
+Entering read_crust...
+Reading template file tutorial/input/template_grid.dat
+Model domain: 
+ lat=[35.30, 36.45], 46 points; 
+ lon=[-120.91, -119.89], 41 points; 
+ dep=[0.00, 10.00], 2 points; 
+ Uniform grid found.
+ mag=[5.00, 5.00], 1 bins.
+Forecast resolution: dlat=2.78 km, dlon=2.25 km, ddep=5.00 km;
+Internal resolution: dlat=2.78 km, dlon=2.25 km, ddep=5.00 km-> 46 x 41 x 2 = 3772 grid points.
+Real int.resolution: dlat=2.78 km, dlon=2.25 km, ddep=5.00 km.
+
+Slip input file: tutorial/input/slipmodels.txt.
+1 seismic events:
+	 time 	 mag 	 name
+	-12.00	6.00	tutorial/input/fsp/s2004PARKFI01DREG.fsp
+	-12.00	6.00	tutorial/input/fsp/s2004PARKFI01CUST.fsp
+	-12.00	6.00	tutorial/input/fsp/s2004PARKFI01JIxx.fsp
+10937 of 10938 lines are valid; 0 have missing values; 1 are empty
+268 events selected for LL inversion (spatio-temporal selection). 
+468 events selected as sources (spatio-temporal selection). 
+Estimated GR values for catalog: Mc=2.00, b=0.990
+
+Reading focal mechanisms from file tutorial/input/YSH_preParkfield.dat.
+Using both focal mechanisms.
+31 events selected as sample of focal planes, 0 selected as sources.
+Warning - one of the eqkfm structures is empty! (combine_eqkfm) 
+8 events with Mw>=4.000, z<=15.000 selected from eqkfm (eqk_filter).
+268 events used for LL calculation, 8 events used as sources.
+
+Will use 62 receiver focal mechanisms up to t=0.00 (ForecastStartDate)
+
+Building mainshock slip models (eqkfm_addslipmodels).
+Using slip model tutorial/input/fsp/s2004PARKFI01DREG.fsp for large event at t=-1.20000e+01, mag=5.97
+** Warning: could not find field named RAKE. Will use global value (180.000). **
+Slip model set to no. 1.
+Using isotropic stress field for 7 earthquakes
+Inversion time period: [-12 -  0]days, Using 10 iterations.
+Okada Coefficients structure set up.
+DCFS structure set up.
+Depth of surface: 0.000 km.
+Calculating Okada solutions (162 patches, 3772 grid points)...
+Okada Coefficients structure updated.
+Okada Coefficients structure updated.
+Setting up variables in CRSLogLikelihood...
+
+Setting up variables for calculating Coulomb stress fields...
+
+Using uniform background rate.
+Default values of background rate: 
+Mw>=2.00	 r=0.02200
+Slip model set to no. 1.
+Using slip models:
+	tutorial/input/fsp/s2004PARKFI01DREG.fsp
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+
+Performing grid search...
+Asig 	 ta 	 r 	 LL 
+8000.00000 	 7000.00000 	 0.02200 	 -574.56060 	1
+8000.00000 	 8500.00000 	 0.02200 	 39.73064 	1
+8000.00000 	 10000.00000 	 0.02200 	 -1667.47755 	1
+10000.00000 	 7000.00000 	 0.02200 	 -1445.88327 	1
+10000.00000 	 8500.00000 	 0.02200 	 -812.04343 	1
+10000.00000 	 10000.00000 	 0.02200 	 -696.18612 	1
+12000.00000 	 7000.00000 	 0.02200 	 -1309.41624 	1
+12000.00000 	 8500.00000 	 0.02200 	 -1132.14882 	1
+12000.00000 	 10000.00000 	 0.02200 	 -421.38988 	1
+
+Final values of background rate: Mw>=2.00	 r=0.02200
+Background rate used for forecast: Mw>=2.00	 r=0.02200
+
+Calculating forecast...
+Using starting rates results from LL inversion: Calculation starting time 0.00. Forecast start time 0.00.
+RS parameters: Asig=8000.000000, ta=8500.000000
+Output files written: tutorial/output/out1_foremap, tutorial/output/out1_forecast, tutorial/output/out1_foremap_all, tutorial/output/out1_forecast_all, tutorial/output/out1_LLevents.
+Slip model set to no. 2.
+Using slip models:
+	tutorial/input/fsp/s2004PARKFI01CUST.fsp
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+Depth of surface: 0.000 km.
+Calculating Okada solutions (189 patches, 3772 grid points)...
+Okada Coefficients structure updated.
+
+Performing grid search...
+Asig 	 ta 	 r 	 LL 
+8000.00000 	 7000.00000 	 0.02200 	 -1022.68008 	2
+8000.00000 	 8500.00000 	 0.02200 	 -574.80774 	2
+8000.00000 	 10000.00000 	 0.02200 	 109.64063 	2
+10000.00000 	 7000.00000 	 0.02200 	 -51.05575 	2
+10000.00000 	 8500.00000 	 0.02200 	 -144.82363 	2
+10000.00000 	 10000.00000 	 0.02200 	 -405.71005 	2
+12000.00000 	 7000.00000 	 0.02200 	 -91.29582 	2
+12000.00000 	 8500.00000 	 0.02200 	 -13.56085 	2
+12000.00000 	 10000.00000 	 0.02200 	 106.84890 	2
+
+Final values of background rate: Mw>=2.00	 r=0.02200
+Background rate used for forecast: Mw>=2.00	 r=0.02200
+
+Calculating forecast...
+RS parameters: Asig=8000.000000, ta=10000.000000
+Output files written: tutorial/output/out2_foremap, tutorial/output/out2_forecast, tutorial/output/out2_foremap_all, tutorial/output/out2_forecast_all, tutorial/output/out2_LLevents.
+Slip model set to no. 3.
+Using slip models:
+	tutorial/input/fsp/s2004PARKFI01JIxx.fsp
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+	Synthetic slip model (or isotropic field)
+Depth of surface: 0.000 km.
+Calculating Okada solutions (200 patches, 3772 grid points)...
+Okada Coefficients structure updated.
+
+Performing grid search...
+Asig 	 ta 	 r 	 LL 
+8000.00000 	 7000.00000 	 0.02200 	 -1336.49572 	3
+8000.00000 	 8500.00000 	 0.02200 	 106.68934 	3
+8000.00000 	 10000.00000 	 0.02200 	 -433.26579 	3
+10000.00000 	 7000.00000 	 0.02200 	 -392.11585 	3
+10000.00000 	 8500.00000 	 0.02200 	 448.95785 	3
+10000.00000 	 10000.00000 	 0.02200 	 -1127.58683 	3
+12000.00000 	 7000.00000 	 0.02200 	 -1378.04933 	3
+12000.00000 	 8500.00000 	 0.02200 	 -251.10964 	3
+12000.00000 	 10000.00000 	 0.02200 	 -1482.34967 	3
+
+Final values of background rate: Mw>=2.00	 r=0.02200
+Background rate used for forecast: Mw>=2.00	 r=0.02200
+
+Calculating forecast...
+RS parameters: Asig=10000.000000, ta=8500.000000
+Output files written: tutorial/output/out3_foremap, tutorial/output/out3_forecast, tutorial/output/out3_foremap_all, tutorial/output/out3_forecast_all, tutorial/output/out3_LLevents.
+
+Final Rate-and-State parameters (used for forecast):
+Slip model(s) no. 1:	->	Asig=10000.00000 	 ta=8500.00000 	 r=0.02200 
+Slip model(s) no. 2:	->	Asig=10000.00000 	 ta=8500.00000 	 r=0.02200 
+Slip model(s) no. 3:	->	Asig=10000.00000 	 ta=8500.00000 	 r=0.02200 
+Program completed successfully.
+Mon Nov  2 02:25:36 UTC 2015

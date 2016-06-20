@@ -1,0 +1,47 @@
+% ----------------------------------  FINITE-SOURCE RUPTURE MODEL  --------------------------------
+% 
+% Event : Parkfield (Calif.) 		09/28/2004 		[Custodio et al. (2005) ] 
+% EventTAG: s2004PARKFI01CUST
+% 
+% Loc  : LAT  = 35.8185 		LON = -120.3706		DEP = 8.26
+% Size : LEN  = 40.0 km 	WID =  15.0 km		Mw = 6.06	Mo = 1.36e+18 Nm
+% Mech : STRK = 140.0		DIP = 87.0		RAKE = 140.64	Htop = 0.5 km 
+% Rupt : HypX = 30.50 km 	HypZ = 8.26 km 		avTr = 0.9 s	avVr = 2.8 km/s 
+% 
+% ----------------------------------  inversion-related parameters  --------------------------------
+% 
+% Invs :  Nx  =  1 	Nz  = 1 	Fmin = 0.01 Hz 	Fmax = 1.00 Hz 
+% Invs :  Dx  =  40.0 km 	Dz  = 15.0 km 
+% Invs :  Ntw =  1	Nsg =  1 			(# of time-windows,# of fault segments) 
+% Invs :  LEN =  -99.0 s	SHF =  0.0 s 		(time-window length and time-shift) 
+% SVF  :  asymm. cosine 					(type of slip-velocity function used) 
+% 
+% Data : 	SGM  	TELE 	TRIL 	LEVEL	GPS  	INSAR	SURF 	OTHER
+% Data : 	43	0	0	0	0	0	0	0
+% PHImx: 	80	0	0	0	0	0	0	0
+% Rmin : 	80	0	0	0	0	0	0	0
+	1.0	0.0	0.0	0.0	0.0	0.0	0.0	0.0
+% 
+% --------------------------------------------------------------------------------------------------
+% 
+% VELOCITY-DENSITY STRUCTURE 
+% No.  of layers =  9 
+% 
+%	DEPTH	P-VEL	S-VEL	DENS	QP	QS
+%	[km]	[km/s]	[km/s]	[g/cm^3]  
+% % % % % % % % %      23.60      7.00      4.00      2.80    700.00    400.00
+% 
+% --------------------------------------------------------------------------------------------------
+% 23-Jul-2007 PMM (mai@sed.ethz.ch) 
+% --------------------------------------------------------------------------------------------------
+% 
+% SOURCE MODEL PARAMETERS 
+% 	Nsbfs = 1 subfaults 
+% 		X,Y,Z coordinates in km; SLIP in m 
+% 		if applicable: RAKE in deg, RISE in s, TRUP in s, slip in each TW in m 
+% 
+%   Coordinates are given for top-center of each subfault or segment: |'| 
+%   Origin of local coordinate system at epicenter: X (EW) = 0,  Y (NS) = 0  
+%    LAT       LON       X==EW       Y==NS       Z       SLIP       RAKE       RISE       TRUP     
+% -------------------------------------------------------------------------------------------------- 
+   35.081	-120.37	  0.0	    0.0	 	8.26	1.0	 136	0	0
