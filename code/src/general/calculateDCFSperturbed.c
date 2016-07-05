@@ -271,14 +271,14 @@ void calculateDCFSperturbed(double **DCFSrand, struct pscmp *DCFS, struct eqkfm 
 								int eq1=temp->which_main;
 
 								//need to copy field into cmb0, so that each iteration will smooth the original field (and not the one smoothed in prev. iteration).
-								for (int i=1; i<=NgridT; i++) mycmb[i]=0.0;
-								for (int i=1; i<=DCFS[eq1].nsel; i++) mycmb[DCFS[eq1].which_pts[i]]=DCFS[eq1].cmb[i];
+								for (int ii=1; ii<=NgridT; ii++) mycmb[ii]=0.0;
+								for (int ii=1; ii<=DCFS[eq1].nsel; ii++) mycmb[DCFS[eq1].which_pts[ii]]=DCFS[eq1].cmb[ii];
 								interp_nn(NgridT,crst.nLat, crst.nLon, crst.nD, mycmb,interp_DCFS,0,nn);
 								DCFS[eq1].cmb0=darray(1,DCFS[eq1].nsel);
 								DCFS[eq1].Dcmb=darray(1,DCFS[eq1].nsel);
-								for (int i=1; i<=DCFS[eq1].nsel; i++){
-									DCFS[eq1].cmb0[i]=0.5*(interp_DCFS[DCFS[eq1].which_pts[i]][1]+interp_DCFS[DCFS[eq1].which_pts[i]][2]);
-									DCFS[eq1].Dcmb[i]=fabs(interp_DCFS[DCFS[eq1].which_pts[i]][1]-interp_DCFS[DCFS[eq1].which_pts[i]][2]);
+								for (int ii=1; ii<=DCFS[eq1].nsel; ii++){
+									DCFS[eq1].cmb0[ii]=0.5*(interp_DCFS[DCFS[eq1].which_pts[ii]][1]+interp_DCFS[DCFS[eq1].which_pts[ii]][2]);
+									DCFS[eq1].Dcmb[ii]=fabs(interp_DCFS[DCFS[eq1].which_pts[ii]][1]-interp_DCFS[DCFS[eq1].which_pts[ii]][2]);
 								}
 							}
 
@@ -298,14 +298,14 @@ void calculateDCFSperturbed(double **DCFSrand, struct pscmp *DCFS, struct eqkfm 
 						int eq1=temp->which_main;
 						isoDCFS(DCFS[eq1], eqkfm0[NFsofar]);
 						if (gridpoints_err){
-							for (int i=1; i<=NgridT; i++) mycmb[i]=0.0;
-							for (int i=1; i<=DCFS[eq1].nsel; i++) mycmb[DCFS[eq1].which_pts[i]]=DCFS[eq1].cmb[i];
+							for (int ii=1; ii<=NgridT; ii++) mycmb[ii]=0.0;
+							for (int ii=1; ii<=DCFS[eq1].nsel; ii++) mycmb[DCFS[eq1].which_pts[ii]]=DCFS[eq1].cmb[ii];
 							interp_nn(NgridT,crst.nLat, crst.nLon, crst.nD, mycmb,interp_DCFS,0,nn);
 							DCFS[eq1].cmb0=darray(1,DCFS[eq1].nsel);
 							DCFS[eq1].Dcmb=darray(1,DCFS[eq1].nsel);
-							for (int i=1; i<=DCFS[eq1].nsel; i++){
-								DCFS[eq1].cmb0[i]=0.5*(interp_DCFS[DCFS[eq1].which_pts[i]][1]+interp_DCFS[DCFS[eq1].which_pts[i]][2]);
-								DCFS[eq1].Dcmb[i]=fabs(interp_DCFS[DCFS[eq1].which_pts[i]][1]-interp_DCFS[DCFS[eq1].which_pts[i]][2]);
+							for (int ii=1; ii<=DCFS[eq1].nsel; ii++){
+								DCFS[eq1].cmb0[ii]=0.5*(interp_DCFS[DCFS[eq1].which_pts[ii]][1]+interp_DCFS[DCFS[eq1].which_pts[ii]][2]);
+								DCFS[eq1].Dcmb[ii]=fabs(interp_DCFS[DCFS[eq1].which_pts[ii]][1]-interp_DCFS[DCFS[eq1].which_pts[ii]][2]);
 							}
 						}
 					}
