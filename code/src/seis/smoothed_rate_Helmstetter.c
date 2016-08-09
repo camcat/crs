@@ -148,7 +148,7 @@ double *smoothed_rate_Helmstetter_cat(struct catalog cat, struct crust crst, dou
 	dx=(DEG2RAD*crst.dlon)*Re*cos(DEG2RAD*crst.lat0);
 	dy=(DEG2RAD*crst.dlat)*Re;
 
-	return smoothed_rate_Helmstetter(crst.x, crst.y, dx, dy, crst.nLon*crst.nLat, cat.x0, cat.y0, cat.err, weights, cat.Z, ord);
+	return smoothed_rate_Helmstetter(crst.east, crst.north, dx, dy, crst.nLon*crst.nLat, cat.east0, cat.north0, cat.err, weights, cat.Z, ord);
 
 }
 

@@ -63,7 +63,7 @@ int *decluster_catalog(struct catalog cat, double Mmain, double **weights, int d
 			KG74(cat.mag[i], &D, &T);	//calculate spatial and temporal window.
 			for (int j=1; j<=cat.Z; j++){
 				if (sel[j]==0) continue;	//event has already been removed (aftershock of a previous mainshock).
-				d= pow(cat.x0[j]-cat.x0[i],2)+pow(cat.y0[j]-cat.y0[i],2);	//horizontal distance
+				d= pow(cat.east0[j]-cat.east0[i],2)+pow(cat.north0[j]-cat.north0[i],2);	//horizontal distance
 				if (d3) d+=pow(cat.depths0[j]-cat.depths0[i],2);			//3D distance
 				d=sqrt(d);
 				if (d<=D){	//decluster catalog:

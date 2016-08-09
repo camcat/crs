@@ -120,7 +120,7 @@ int background_rate(char *catfile, struct crust *crst_in, struct tm reftime,
 
 	else{
 		// Assume vertically homogeneous rate, since can not use depth info (non uniform grid does not necessarily have layers).
-		*rate_grid=smoothed_rate_Helmstetter_nonuni(crst.x, crst.y, crst.N_allP, cat.x0, cat.y0, cat.err, weights, cat.Z, ord);
+		*rate_grid=smoothed_rate_Helmstetter_nonuni(crst.east, crst.north, crst.N_allP, cat.east0, cat.north0, cat.err, weights, cat.Z, ord);
 		normv(*rate_grid, crst.N_allP);
 	}
 

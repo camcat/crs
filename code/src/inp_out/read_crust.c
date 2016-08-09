@@ -138,8 +138,8 @@ int read_crust(char *fnametemplate, char *focmecgridfile, struct crust *crst, do
 		(*crst).lat=darray(1,NG);
 		(*crst).lon=darray(1,NG);
 		(*crst).depth=darray(1,NG);
-		(*crst).x=darray(1,NG);
-		(*crst).y=darray(1,NG);
+		(*crst).east=darray(1,NG);
+		(*crst).north=darray(1,NG);
 		(*crst).dAgrid=darray(1,NG);
 		(*crst).list_allP=iarray(1,NG);
 		for (int i=1; i<=NG; i++) (*crst).list_allP[i]=i;
@@ -182,8 +182,8 @@ int read_crust(char *fnametemplate, char *focmecgridfile, struct crust *crst, do
 		(*crst).lat=(*crst).lat_out;
 		(*crst).lon=(*crst).lon_out;
 		(*crst).depth=(*crst).depth_out;
-		(*crst).x=darray(1,NG);
-		(*crst).y=darray(1,NG);
+		(*crst).east=darray(1,NG);
+		(*crst).north=darray(1,NG);
 		(*crst).dAgrid=darray(1,NG);
 		(*crst).list_allP=iarray(1,NG);
 		for (int i=1; i<=NG; i++) (*crst).list_allP[i]=i;
@@ -194,7 +194,7 @@ int read_crust(char *fnametemplate, char *focmecgridfile, struct crust *crst, do
 	dAeq=pow(Re*PI/180,2)*(*crst).dlon*(*crst).dlat;
 	for (int k=1; k<=NG;k++){
 		(*crst).dAgrid[k]= dAeq*cos((*crst).lat[k]*PI/180);
-		latlon2localcartesian((*crst).lat[k], (*crst).lon[k], (*crst).lat0, (*crst).lon0, (*crst).y+k, (*crst).x+k);
+		latlon2localcartesian((*crst).lat[k], (*crst).lon[k], (*crst).lat0, (*crst).lon0, (*crst).north+k, (*crst).east+k);
 	}
 
 	//--------------read value of focal mechanism grid from file:-------------//

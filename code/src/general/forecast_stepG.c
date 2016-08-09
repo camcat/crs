@@ -33,7 +33,7 @@ int rate_state_evolution(struct catalog cat, double *times, double **cmpdata, st
 	 * Input:
 	 *  cat: catalog containing earthquakes to be included in LogLikelihood calculation.
 	 *  times: timesteps corresponding to aseismic loading. [0...NTS]
-	 *  cmpdata: stresses due to aseismic loading. [0...NTS-1; 1...N], where cmpdata[x][m] is the stress change at grid point [m] between times[x+1] and times[x].
+	 *  cmpdata: stresses due to aseismic loading. [0...NTS-1; 1...N], where cmpdata[x][m] is the stress change at grid point [m] between times[x] and times[x+1].
 	 *  		if NULL, it will be ignored.
 	 *  DCFS: structure containing seismic sources. [0...Neqks-1]
 	 *  tt0, tt1: start, end time of calculation

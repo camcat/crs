@@ -109,8 +109,8 @@ void copy_eqkfm_attributes(struct eqkfm eqkfm1, struct eqkfm *eqkfm2){
 	(*eqkfm2).mag=eqkfm1.mag;
 	(*eqkfm2).lat=eqkfm1.lat;
 	(*eqkfm2).lon=eqkfm1.lon;
-	(*eqkfm2).x=eqkfm1.x;
-	(*eqkfm2).y=eqkfm1.y;
+	(*eqkfm2).east=eqkfm1.east;
+	(*eqkfm2).north=eqkfm1.north;
 	(*eqkfm2).depth=eqkfm1.depth;
 
 	return;

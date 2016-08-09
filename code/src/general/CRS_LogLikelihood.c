@@ -526,7 +526,9 @@ int CRSforecast(double *LL, int Nsur, struct pscmp *DCFS, struct eqkfm *eqkfm_af
 
 		if(procId == 0) {
 			if (print_foret) {
-				for (int t=1; t<=Ntts; t++) fprintf(fforet_avg, "%lf\t%lf\t%lf\n",tt0+dtstep*t,nev_avg[t]*r0/(1.0*NgridT),rev_avg[t]*r0/(1.0*NgridT));
+				for (int t=1; t<=Ntts; t++) {
+					if (tt0+dtstep*t<=tt1) fprintf(fforet_avg, "%lf\t%lf\t%lf\n",tt0+dtstep*t,nev_avg[t]*r0/(1.0*NgridT),rev_avg[t]*r0/(1.0*NgridT));
+				}
 				fclose(fforet_avg);
 			}
 		}
@@ -588,7 +590,9 @@ int CRSforecast(double *LL, int Nsur, struct pscmp *DCFS, struct eqkfm *eqkfm_af
 
 				if (LL){
 					integral=0.0;
-					for (int t=1; t<=Ntts; t++) integral+= nev_avg[t];
+					for (int t=1; t<=Ntts; t++) {
+						if (tt0+t*dtstep<=tt1) integral+= nev_avg[t];
+					}
 					*LL=Ldum-integral*r0/(1.0*NgridT);
 				}
 			}

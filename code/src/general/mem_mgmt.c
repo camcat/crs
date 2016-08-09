@@ -102,8 +102,8 @@ void init_crst(struct crust *crst){
 	(*crst).str0=darray(0,0);
 	(*crst).dip0=darray(0,0);
 	(*crst).rake0=darray(0,0);
-	(*crst).x=NULL;
-	(*crst).y=NULL;
+	(*crst).east=NULL;
+	(*crst).north=NULL;
 	(*crst).rate0=NULL;
 	(*crst).mags=NULL;
 	(*crst).GRmags=NULL;
@@ -122,8 +122,8 @@ void init_cat1(struct catalog *cat, int Zsel){
 	(*cat).mag = darray(1, Zsel);
 	(*cat).lat0 = darray(1, Zsel);
 	(*cat).lon0 = darray(1, Zsel);
-	(*cat).x0 = darray(1, Zsel);
-	(*cat).y0 = darray(1, Zsel);
+	(*cat).east0 = darray(1, Zsel);
+	(*cat).north0 = darray(1, Zsel);
 	(*cat).depths0 = darray(1, Zsel);
 	(*cat).err = darray(1, Zsel);
 	(*cat).verr = darray(1, Zsel);
@@ -240,8 +240,8 @@ void free_cat(struct catalog cat){
 	free_darray(cat.mag,1, 0);
 	free_darray(cat.lat0,1, 0);
 	free_darray(cat.lon0,1, 0);
-	free_darray(cat.x0,1, 0);
-	free_darray(cat.y0,1, 0);
+	free_darray(cat.east0,1, 0);
+	free_darray(cat.north0,1, 0);
 	free_darray(cat.depths0,1, 0);
 	free_iarray(cat.ngrid,1, 0);
 	free_i2array_firstlevel(cat.ngridpoints,1,cat.Z,1,0); //uses 0 for upper index, since it doesn't matter.

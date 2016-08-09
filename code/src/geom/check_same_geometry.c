@@ -42,8 +42,8 @@ int check_same_geometry(struct eqkfm *eqkfm1, int N1, struct eqkfm *eqkfm2, int 
 		if (eqkfm1[i].lat!=eqkfm2[i].lat) return 0;
 		if (eqkfm1[i].lon!=eqkfm2[i].lon) return 0;
 		if (eqkfm1[i].depth!=eqkfm2[i].depth) return 0;
-		if (eqkfm1[i].x!=eqkfm2[i].x) return 0;
-		if (eqkfm1[i].y!=eqkfm2[i].y) return 0;
+		if (eqkfm1[i].east!=eqkfm2[i].east) return 0;
+		if (eqkfm1[i].north!=eqkfm2[i].north) return 0;
 		if (eqkfm1[i].L!=eqkfm2[i].L) return 0;
 		if (eqkfm1[i].W!=eqkfm2[i].W) return 0;
 

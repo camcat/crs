@@ -155,7 +155,7 @@ int eqkfm_addslipmodels(struct eqkfm *eqfm1, struct slipmodels_list all_slipmode
 					//event does not have foc. mech. but a fixed one should be used (flags.sources_without_focmec==2)
 					if (!eqfm1[i].is_slipmodel && flags.sources_without_focmec==2){
 						if ( crst.variable_fixmec==1){
-							p=find_closest_point(crst.y, crst.x, crst.depth, crst.N_allP, eqfm1[i].y, eqfm1[i].x, eqfm1[i].depth);
+							p=find_closest_point(crst.north, crst.east, crst.depth, crst.N_allP, eqfm1[i].north, eqfm1[i].east, eqfm1[i].depth);
 							(*eqfm_comb)[c3].str1=crst.str0[p];	
 							(*eqfm_comb)[c3].dip1=crst.dip0[p];
 							(*eqfm_comb)[c3].rake1=crst.rake0[p];

@@ -119,8 +119,8 @@ struct catalog{
 	double *mag;		//magnitude;
 	double *lat0;
 	double *lon0;
-	double *x0;
-	double *y0;
+	double *east0;
+	double *north0;
 	double *depths0;
 	double *err;
 	double *verr;
@@ -209,8 +209,8 @@ struct crust{
 			*lon_out, \
 			*depth_out;
 	double *dAgrid;
-	double *x;
-	double *y;
+	double *east;
+	double *north;
 	double *rate0;	//adds up to 1.
 	//double r0;		//daily rate for entire region.
 	double *mags, *GRmags;	//GRmags=Gutenberg-Richter coefficients corresponding to each magnitude bin.
@@ -249,8 +249,8 @@ struct eqkfm{	//for events on multiple faults, use a list of these.
 	double lon; 	//0_lat in Wang input file;
 	double depth; 	//0_lat in Wang input file;
 	double top;		//depth of the shallowest point of the entire slip model (also across multiple elements of eqkfm[]).
-	double x;		//eastwards coordinate in local system;
-	double y;		//northward coordinate in local system.
+	double east;		//eastwards coordinate in local system;
+	double north;		//northward coordinate in local system.
 	double mag;		//magnitude (for aseismic, magnitude of last snapshot).
 	double *tot_slip;	//tot. slip on the fault (sum of scalar value of slip for each patch), at each time ts (not used for coseismic slip).
 	double L;		//fault length

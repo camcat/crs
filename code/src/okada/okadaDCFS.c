@@ -279,8 +279,8 @@ int okadaCoeff_mpi(float ****Coeffs_st,
 			for(int i0=0; i0<Nsel; i0++) {	
 
 				i=eqkfm1[0].selpoints[i0+1];	// Added '+1' to the index
-				north=crst.y[i];
-				east=crst.x[i];
+				north=crst.north[i];
+				east=crst.east[i];
 
 				//if the element is associated with afterslip, should check whether this afterslip has strike/slip/opening component.
 				afslip=	eqkfm1[j].co_aft_pointer;
@@ -489,8 +489,8 @@ int okadaCoeff(float ****Coeffs_st, float ****Coeffs_dip, float ****Coeffs_open,
 			#pragma omp parallel for private(Sxx, Syy, Szz, Sxy, Syz, Sxz, north, east, i, afslip, noslip_str, noslip_dip, noopen)
 			for (int i0=1; i0<=Nsel; i0++){
 				i=eqkfm1[0].selpoints[i0];
-				north=crst.y[i];
-				east=crst.x[i];
+				north=crst.north[i];
+				east=crst.east[i];
 
 				//if the element is associated with afterslip, should check whether this afterslip has strike/slip/opening component.
 				afslip=	eqkfm1[j].co_aft_pointer;
@@ -700,8 +700,8 @@ void patch_pos(struct eqkfm eqfm, int p, double *east, double *north, double *de
 	choose_focmec(eqfm, &strike, &dip, NULL);
 
 	pos_top=eqfm.pos_d[p]-0.5*eqfm.W*(1.0/eqfm.np_di);	//position of top of the patch (along dip).
-	*east=eqfm.x+eqfm.pos_s[p]*sin(strike)+pos_top*cos(dip)*cos(strike);
-	*north=eqfm.y+eqfm.pos_s[p]*cos(strike)-pos_top*cos(dip)*sin(strike);
+	*east=eqfm.east+eqfm.pos_s[p]*sin(strike)+pos_top*cos(dip)*cos(strike);
+	*north=eqfm.north+eqfm.pos_s[p]*cos(strike)-pos_top*cos(dip)*sin(strike);
 	dz=sin(dip)*pos_top;	//depth of top of the patch.
 	*depth=eqfm.depth+dz;
 

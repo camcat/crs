@@ -375,7 +375,7 @@ int readfocmec(char *focmecfile, struct crust crst,
 				(*eqkfm)[p0].slip_dip=darray(1,2);
 				(*eqkfm)[p0].open=NULL;
 			}
-			err+=find_gridpoints_d(crst.y, crst.x, crst.depth, (int *) 0, 0, crst.N_allP, (*eqkfm)[p0].y, (*eqkfm)[p0].x, (*eqkfm)[p0].depth,  (*eqkfm)[p0].mag, dDCFS,  &((*eqkfm)[p0].nsel), &((*eqkfm)[p0].selpoints));
+			err+=find_gridpoints_d(crst.north, crst.east, crst.depth, (int *) 0, 0, crst.N_allP, (*eqkfm)[p0].north, (*eqkfm)[p0].east, (*eqkfm)[p0].depth,  (*eqkfm)[p0].mag, dDCFS,  &((*eqkfm)[p0].nsel), &((*eqkfm)[p0].selpoints));
 			WellsCoppersmith((*eqkfm)[p0].mag, (*eqkfm)[p0].rake1, &((*eqkfm)[p0].L), &((*eqkfm)[p0].W), &slip);
 			slip=(*eqkfm)[p0].tot_slip[0]=pow(10,(1.5*((*eqkfm)[p0].mag+6)))*(1.0/(crst.mu*pow(10,12)*(*eqkfm)[p0].W*(*eqkfm)[p0].L));
 			//shift depth to make sure slip model is not outside domain:
@@ -394,7 +394,7 @@ int readfocmec(char *focmecfile, struct crust crst,
 				(*eqkfm)[p0].slip_str[2]=slip*cos(DEG2RAD*(*eqkfm)[p0].rake2);
 				(*eqkfm)[p0].slip_dip[2]=-slip*sin(DEG2RAD*(*eqkfm)[p0].rake2);
 			}
-	    	latlon2localcartesian((*eqkfm)[p0].lat, (*eqkfm)[p0].lon, crst.lat0, crst.lon0, &((*eqkfm)[p0].y), &((*eqkfm)[p0].x));
+	    	latlon2localcartesian((*eqkfm)[p0].lat, (*eqkfm)[p0].lon, crst.lat0, crst.lon0, &((*eqkfm)[p0].north), &((*eqkfm)[p0].east));
 
 		}
 	}

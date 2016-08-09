@@ -89,10 +89,10 @@ int readZMAP (struct catalog *cat, struct eqkfm **eqfm, int *Ntot, char *file,
 	int *seleq1, *seleq2, *catindex;	//catindex: indices of events in catalog, to be copied into eqkfm.
 	double SD, SDd, SDlat, SDlon, f=1.0;
 	double lat0l, lat1l, lon0l, lon1l, dep0l, dep1l;
-	double x,y;
+	double east, north;
 	double Mc;
-	double 	*xgrid=crst.x, \
-			*ygrid=crst.y, \
+	double 	*eastgrid=crst.east, \
+			*northgrid=crst.north, \
 			*depgrid=crst.depth, \
 			*dAgrid=crst.dAgrid;
 	int N=crst.N_allP;
@@ -415,7 +415,7 @@ int readZMAP (struct catalog *cat, struct eqkfm **eqfm, int *Ntot, char *file,
 	if (cat){
 		init_cat1(cat, eq2);
 
-		#pragma omp parallel for private(eq, SD, SDd, x, y) reduction(+:errP)
+		#pragma omp parallel for private(eq, SD, SDd, east, north) reduction(+:errP)
 		for (int i=1; i<=eq2; i++){
 		if (errP) continue;
 		eq=seleq2[i-1];
@@ -429,11 +429,11 @@ int readZMAP (struct catalog *cat, struct eqkfm **eqfm, int *Ntot, char *file,
 			(*cat).err[i]=herr[eq];
 			(*cat).verr[i]=verr[eq];
 			*((*cat).ngrid + i)=0;
-			latlon2localcartesian(lat[eq], lon[eq], crst.lat0, crst.lon0, &y, &x);
-			(*cat).x0[i]=x;
-			(*cat).y0[i]=y;
+			latlon2localcartesian(lat[eq], lon[eq], crst.lat0, crst.lon0, &north, &east);
+			(*cat).east0[i]=east;
+			(*cat).north0[i]=north;
 	    	if (findgridpoints){
-				errP+=find_gridpoints(ygrid, xgrid, dAgrid, depgrid, N, y, x, SD, dep[eq], SDd, cut_sd, (*cat).ngrid + i, &((*cat).ngridpoints[i]), &((*cat).weights[i]), 1, 1);
+				errP+=find_gridpoints(northgrid, eastgrid, dAgrid, depgrid, N, north, east, SD, dep[eq], SDd, cut_sd, (*cat).ngrid + i, &((*cat).ngridpoints[i]), &((*cat).weights[i]), 1, 1);
 			}
 		}
 		(*cat).tstart= ((*cat).Z==0)? t0c : fmax(t0c, (*cat).t[1]);
@@ -473,10 +473,10 @@ int readZMAP (struct catalog *cat, struct eqkfm **eqfm, int *Ntot, char *file,
 			(*eqfm)[i].depth=dep[eq];
 			(*eqfm)[i].mag=mag[eq];
 			(*eqfm)[i].index_cat= catindex[i];
-	    	latlon2localcartesian((*eqfm)[i].lat, (*eqfm)[i].lon, crst.lat0, crst.lon0, &((*eqfm)[i].y), &((*eqfm)[i].x));
+	    	latlon2localcartesian((*eqfm)[i].lat, (*eqfm)[i].lon, crst.lat0, crst.lon0, &((*eqfm)[i].north), &((*eqfm)[i].east));
 	    	if (findgridpoints){
-				if (catindex[i]!=0) errP+=find_gridpoints_d(ygrid, xgrid, depgrid, (*cat).ngridpoints[catindex[i]], (*cat).ngrid[catindex[i]], N, (*eqfm)[i].y, (*eqfm)[i].x, (*eqfm)[i].depth,  (*eqfm)[i].mag, dDCFS,  &((*eqfm)[i].nsel), &((*eqfm)[i].selpoints));
-				else errP+=find_gridpoints_d(ygrid, xgrid, depgrid, (int *) 0, 0, N, (*eqfm)[i].y, (*eqfm)[i].x, (*eqfm)[i].depth,  (*eqfm)[i].mag, dDCFS,  &((*eqfm)[i].nsel), &((*eqfm)[i].selpoints));
+				if (catindex[i]!=0) errP+=find_gridpoints_d(northgrid, eastgrid, depgrid, (*cat).ngridpoints[catindex[i]], (*cat).ngrid[catindex[i]], N, (*eqfm)[i].north, (*eqfm)[i].east, (*eqfm)[i].depth,  (*eqfm)[i].mag, dDCFS,  &((*eqfm)[i].nsel), &((*eqfm)[i].selpoints));
+				else errP+=find_gridpoints_d(northgrid, eastgrid, depgrid, (int *) 0, 0, N, (*eqfm)[i].north, (*eqfm)[i].east, (*eqfm)[i].depth,  (*eqfm)[i].mag, dDCFS,  &((*eqfm)[i].nsel), &((*eqfm)[i].selpoints));
 	    	}
 
 		}
