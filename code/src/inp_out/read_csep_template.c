@@ -232,11 +232,11 @@ int read_csep_template(char *fname, int *no_magbins, int *nlat, int *nlon,
 			    if (n==1){
 				print_screen("Warning: last column not given in file: %s.\n", fname);
 				print_logfile("Warning: last column not given in file: %s.\n", fname);
-				(*rate)[n]=0.0;
+				(*rate)[n]=1;
 			   }
 			}
 			else{
-				(*rate)[n]=0.0;
+				(*rate)[n]=1;
 				for (int i=n1-nmag+1; i<=n1; i++)(*rate)[n]+= data[9-miss_col][i];
 			}
 		}

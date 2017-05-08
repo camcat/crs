@@ -155,8 +155,8 @@ int read_fsp_eqkfm(char *fname, struct eqkfm **eqfm_out, int *NF_out) {
 				MPI_Bcast(&ndi_nst, 1, MPI_INT, 0, MPI_COMM_WORLD);
 			#endif
 			if ((*eqfm_out)[0].np_st*(*eqfm_out)[0].np_di!=ndi_nst) {
-				print_screen("Error: geometry of slip model %s not understood. Exit.\n", fname);
-				print_logfile("Error: geometry of slip model %s not understood. Exit.\n", fname);
+				print_screen("Error: geometry of slip model %s not understood. Expected %d x %d = %d patches, %d found. Exit.\n", fname, (*eqfm_out)[0].np_st, (*eqfm_out)[0].np_di, (*eqfm_out)[0].np_st*(*eqfm_out)[0].np_di, ndi_nst);
+				print_logfile("Error: geometry of slip model %s not understood. Expected %d x %d = %d patches, %d found. Exit.\n", fname, (*eqfm_out)[0].np_st, (*eqfm_out)[0].np_di, (*eqfm_out)[0].np_st*(*eqfm_out)[0].np_di, ndi_nst);
 				return 1;
 			}
 
@@ -228,8 +228,8 @@ int read_fsp_eqkfm(char *fname, struct eqkfm **eqfm_out, int *NF_out) {
 					MPI_Bcast(&dW, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 				#endif
 				//np_di, np_st are also given in the file (Nx, Nz), but only once -> what about models in which each subfault has different no of patches?
-				(*eqfm_out)[f].np_di=(int) ((*eqfm_out)[f].W/dW);
-				(*eqfm_out)[f].np_st=(int) ((*eqfm_out)[f].L/dL);
+				(*eqfm_out)[f].np_di=round(((*eqfm_out)[f].W/dW));
+				(*eqfm_out)[f].np_st=round(((*eqfm_out)[f].L/dL));
 				(*eqfm_out)[f].pos_d=darray(1,ndi_nst);
 				(*eqfm_out)[f].pos_s=darray(1,ndi_nst);
 				(*eqfm_out)[f].slip_str=darray(1,ndi_nst);
@@ -237,8 +237,8 @@ int read_fsp_eqkfm(char *fname, struct eqkfm **eqfm_out, int *NF_out) {
 				(*eqfm_out)[f].open=NULL;
 
 				if ((*eqfm_out)[f].np_st*(*eqfm_out)[f].np_di!=ndi_nst){
-					print_screen("Error: geometry of slip model %s not understood. Exit.\n", fname);
-					print_logfile("Error: geometry of slip model %s not understood. Exit.\n", fname);
+					print_screen("Error: geometry of slip model %s not understood. Expected %d x %d = %d patches, %d found. Exit.\n", fname, (*eqfm_out)[0].np_st, (*eqfm_out)[0].np_di, (*eqfm_out)[0].np_st*(*eqfm_out)[0].np_di, ndi_nst);
+	                                print_logfile("Error: geometry of slip model %s not understood. Expected %d x %d = %d patches, %d found. Exit.\n", fname, (*eqfm_out)[0].np_st, (*eqfm_out)[0].np_di, (*eqfm_out)[0].np_st*(*eqfm_out)[0].np_di, ndi_nst);					
 					return 1;
 				}
 
