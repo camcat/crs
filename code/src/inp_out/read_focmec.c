@@ -111,6 +111,7 @@ int readmultiplefocmec(char **focmecfiles, int nofiles,
 		err += readfocmec(focmecfiles[n], crst, border, dz, dDCFS, reftime, t0,
 						  t1, tfocmec, mag, (focmec)? &focmectemp : NULL, &nfmtemp, &nfmtemp2,
 						  (eqkfm)? &eqkfmtemp : NULL, sel, fm2);
+		if (err) break;
 
 		if (focmec && !nfmtemp) {
 			print_screen("**Warning: no focal mechanisms selected from file %s. (readmultiplefocmec).**\n", focmecfiles[n]);
@@ -240,7 +241,7 @@ int readfocmec(char *focmecfile, struct crust crst,
 		return 1;
 	}
 
-	print_screen("Reading catalog of focal mechanisms...");
+	print_screen("Reading catalog of focal mechanisms...\n");
 
 	lat_col=3;
 	lon_col=4;
@@ -264,11 +265,14 @@ int readfocmec(char *focmecfile, struct crust crst,
 
 	#ifdef _CRS_MPI
 		MPI_Bcast(&NFM0, 1, MPI_LONG, 0, MPI_COMM_WORLD);
-
+		MPI_Bcast(&err, 1, MPI_LONG, 0, MPI_COMM_WORLD);
 		long nrl=1, nrh=NC, ncl=1, nch=NFMmax;
 		long nrow=nrh-nrl+1, ncol=nch-ncl+1;
 		MPI_Bcast(focmec0[nrl], nrow*ncol+1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 	#endif
+
+	if (err) return err;
+
 
 	if(procId == 0) {
 		for (int p=1; p<=NFM0; p++){

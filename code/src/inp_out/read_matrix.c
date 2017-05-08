@@ -52,8 +52,8 @@ int read_matrix_N(int NL, char *infile, int columns, int headerlines, double **d
 	int c;
 
 	if((fin = fopen(infile, "r"))==NULL){
-		print_screen("**Error: unable to open input file %s (inread_matrix).**\n", infile);
-		print_logfile("**Error: unable to open input file %s (inread_matrix).**\n", infile);
+		print_screen("**Error: unable to open input file %s (read_matrix).**\n", infile);
+		print_logfile("**Error: unable to open input file %s (read_matrix).**\n", infile);
 		return (1);
 	}
 
@@ -68,6 +68,11 @@ int read_matrix_N(int NL, char *infile, int columns, int headerlines, double **d
 
 	while (ans != EOF) {
 		ans = fscanf(fin, "%lf", &dum);
+		if (ans==0){
+			print_screen("**Error: invalid format at line %d of file %s. Only numeric characters allowed. (read_matrix).**\n", (int) ceil(N/(1.*columns)) + headerlines, infile);
+			print_logfile("**Error: invalid format at line %d of file %s. Only numeric characters allowed. (read_matrix).**\n", (int) ceil(N/(1.*columns)) + headerlines, infile);
+			return(1);
+		}
 		if (ans != EOF) N++;
 	}
 
