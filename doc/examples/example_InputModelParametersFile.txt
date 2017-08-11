@@ -57,7 +57,7 @@ fm	iso
 # 1. Receiver fault orientation and flag indicating if rake should be optimal.
 #    options: oops (optimally oriented planes), fixed (uses the uniform reginal field plane given below, or planes from the gridded file given by "FixedMecFile" in the input file), focmec (uses the planes from the focal mechanisms catalog, performing Monte Carlo iterations over the available mechanisms). 
 #    If "fixed" or "focmec" are chosen, the next parameter on the same line is a flag indicating whether the rake should be optimized. If set to 1, the program will calculate the rake which gives the largest total stress; otherwise, it will use a fixed rake.
-# NOTE: There are some caveats for using of OOPS and optimal rake with aseismic stresses: see file TODO.
+# NOTE: There are some caveats for using of OOPS or optimal rake with aseismic stresses: see file TODO.
 # 2. grid_error (0/1): flag indicating if the error due to finite grid size should be calculated.
 # 3. Nsur: number of Monte Carlo iterations.
 fixed	1
@@ -67,7 +67,7 @@ fixed	1
 #             Other parameters                #
 #=============================================#
 #
-# 1. output_forecast, dt: flag indicating if forecast should be produced; time step used for output of seismicity temporal evolution.
+# 1. output_forecast, dt: flag indicating if forecast should be produced; time step used for output of seismicity temporal evolution (days).
 # 2-5. Expected difference between the ZMAP earthquake catalog (InputCatalogFile) and the catalog of focal mechanisms (InputCatalogFocMecFile): these values are used as tolerance when associating focal mechanisms to the ZMAP events.
 # 2. dt: time tolerance (days)
 # 3. dMag: magnitude tolerance
@@ -88,8 +88,8 @@ fixed	1
 # 2. Friction coefficient, Skepton coefficient
 # 3. Uniform regional field description:	strike, dip, rake
 #    This is used as receiver fault if you selected "fixed" above, and if no gridded file with focal mechanisms ("FixedMecFile" in input file) is provided.
-#    It is also used to calculate the orientation of the background stress field if the option "paxis" is selected below.
-# 4+. Choice between "paxis" and "oop", two ways in which the regional stress field can be described: 
+#    It is also used to calculate the orientation of the background stress field if the option "oops" is selected below.
+# 4+. Choice between "paxis" and "oops", two ways in which the regional stress field can be described: 
 # if "paxis", the following 3 lines give amplitude (MPa), strike, dip of the principal axis:
 #	5. 	sigma1	strike1	dip1
 #	6.	sigma2	strike2	dip2

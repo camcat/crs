@@ -48,7 +48,7 @@ In the second case, a 5+column file should be provided, as follows:
         4.Minimum Magnitude
         5.Maximum Magnitude
         [6.Index of focal mechanisms catalog] * 
-	[7.Mask Bit] *
+	[7.Mask Bit] **
 
 	* this column is only used if InputListCatalogFocMecFile is given in the input file. Otherwise it is optional.
 	** the content of this lines doesn't matter for the template file, and the column is optional.
