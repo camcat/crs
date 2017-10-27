@@ -116,13 +116,46 @@ int rate_state_evolution(struct catalog cat, double *times, double **cmpdata, st
 
 		//create a merged set of events from cat and DCFS; this is needed since the both define calculation time steps.
 		events=union_cats2(cat, DCFS, Neqks, &indices, &Neq);
-
-		which_eqk=i2array(1,N,0,Neq-1);	//list of earthquakes in each grid point
 		num_eqk=iarray(1,N);	//number of earthquakes in each grid point
-		cat_weights=f2array(1,N,0,Neq-1);	//catalog weights
-		DCFS_whichpt=i2array(1,N,0,Neq-1);	//grid point index in DCFS elements (since they contain stress field for a selection of pts only)
+		int num_eqk_max=0;
 
 		for (int n=1; n<=N; n++) num_eqk[n]=0;
+
+		//Just fill in num_eqk to figure out how large arrays need to be:
+		for(int eq=0;eq<Neq;eq++){
+			counter1=counter2=1;
+			cat_i=indices[1][eq];	//	NB:cat_i[i]==-1 means no events selected.
+			DCFS_i=indices[2][eq];  //	NB:DCFS_i[i]==-1 means no events selected.
+			for (int n=1; n<=N; n++){
+				if (counter2 > DCFS[DCFS_i].nsel && counter1 > cat.ngrid[cat_i]) break;	//all points have already been included
+				else{
+					//find index in cat and DCFS which may refer to this grid point:
+					if (cat_i!=-1) while (counter1 <=cat.ngrid[cat_i] && cat.ngridpoints[cat_i][counter1]<n) counter1+=1;
+					if (DCFS_i!=-1) while (counter2 <=DCFS[DCFS_i].nsel && DCFS[DCFS_i].which_pts[counter2]<n) counter2+=1;
+					//check if index refers to this grid point:
+					is_incat= (cat_i!=-1 && counter1 <= cat.ngrid[cat_i] && cat.ngridpoints[cat_i][counter1]==n) ? 1 : 0;
+					is_inDCFS= (DCFS_i!=-1 && counter2 <= DCFS[DCFS_i].nsel && DCFS[DCFS_i].which_pts[counter2]==n) ? 1 : 0;
+					//add earthquake to list for this grid point, and fill in cat_weights, DCFS_whichpt accordingly
+					if (is_incat | is_inDCFS){
+						num_eqk[n]+=1;
+					}
+				}
+			}
+		}
+
+		//What's the maximum number of elements required?
+		//TODO a better way, memory wise, would be to allocate the exact number of elements needed for each grind point.
+		for (int n=1; n<=N; n++){
+			num_eqk_max= max(num_eqk[n], num_eqk_max);
+		}
+
+		print_screen("num_eqk_max=%d\n", num_eqk_max);
+
+		for (int n=1; n<=N; n++) num_eqk[n]=0;
+
+		cat_weights=f2array(1,N,0,num_eqk_max-1);	//catalog weights
+		DCFS_whichpt=i2array(1,N,0,num_eqk_max-1);	//grid point index in DCFS elements (since they contain stress field for a selection of pts only)
+		which_eqk=i2array(1,N,0,num_eqk_max-1);	//list of earthquakes in each grid point
 
 		for(int eq=0;eq<Neq;eq++){
 			counter1=counter2=1;

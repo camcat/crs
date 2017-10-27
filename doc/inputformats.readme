@@ -110,6 +110,7 @@ following columns:
 12.depth
 [Additional columns will be ignored]
 
+strikes, dips and rakes follow the convention in Aki and Richards (1980), Quantitative Seismology, Vol. 1.
 strike1, dip1 will be used to create synthetic slip models for events which should be included as sources.
 rakes are not used for receiver faults: Coulomb stresses are calculated in the slip direction on which the total shear stress is largest ('optimal rake').
 This is hardwired but determined by a flag in the code ('optimal_rake' in src/general/clculateDCFSperturbed.c).

@@ -13,7 +13,7 @@ Performance related:
 - The variable all_gammas can be very large (grid point x Monte Carlo iterations). Since it is possible to run CRS without it, there should be a check and if not enough memory is available this variable should bot be used.
 - in src/general/setup.c, some memory could be saved by allowing individual snapshots of allslip_xxx to be NULL.
 - Some suggestions on further reducing memory usage are given in src/okada/okadaDCFS.c (flagged as 'todo')
-
+- In some cases, CRS requests more virtual memory than it needs (various "malloc" calls). This does not seem to be a problem if it's run on systems with unlimited virtual memory per proccess, but it would be better to not request so much memory in the first place.
 
 New features:
 -------------

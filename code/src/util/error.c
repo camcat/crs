@@ -2,7 +2,8 @@
 /*   Copyright (C) 2015 by Camilla Cattania and Fahad Khalid.
  *
  *   This file is part of CRS.
- *
+ 
+*
  *   CRS is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
@@ -67,7 +68,7 @@ void error_quit_fun(const char *fun, int quit, const char * format, ...){
 		  va_end (args);
 	}
 
-	if (quit) exit(EXIT_FAILURE);
+	if (quit) abort();
 }
 
 void print_logfile_fun(const char *fun, const char * format, ...){
