@@ -1,4 +1,5 @@
 memory_error_quit;
+i/	if (quit) exit(EXIT_FAILURE);
 /*   Copyright (C) 2015 by Camilla Cattania and Fahad Khalid.
  *
  *   This file is part of CRS.
@@ -148,8 +149,6 @@ int rate_state_evolution(struct catalog cat, double *times, double **cmpdata, st
 		for (int n=1; n<=N; n++){
 			num_eqk_max= max(num_eqk[n], num_eqk_max);
 		}
-
-		print_screen("num_eqk_max=%d\n", num_eqk_max);
 
 		for (int n=1; n<=N; n++) num_eqk[n]=0;
 
