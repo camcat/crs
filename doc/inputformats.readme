@@ -114,3 +114,4 @@ strikes, dips and rakes follow the convention in Aki and Richards (1980), Quanti
 strike1, dip1 will be used to create synthetic slip models for events which should be included as sources.
 rakes are not used for receiver faults: Coulomb stresses are calculated in the slip direction on which the total shear stress is largest ('optimal rake').
 This is hardwired but determined by a flag in the code ('optimal_rake' in src/general/clculateDCFSperturbed.c).
+Note that magnitude information is not used.

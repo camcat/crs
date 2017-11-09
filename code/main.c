@@ -468,9 +468,9 @@ int main (int argc, char **argv) {
 	//					Setup other things							//
 	//--------------------------------------------------------------//
 
-	if (flags.err_recfault && !flags.err_gridpoints && no_fm_cats==1 && Nsur>Nfocmec) {
+	if (flags.err_recfault && !flags.err_gridpoints && no_fm_cats==1 && Nsur>=Nfocmec) {
 	    	Nsur=Nfocmec;		//it doesn't make sense to have more iterations than focal mechanisms.
-			flags.sample_all=1;	//all focal mechanisms can be sampled (one per iteration).
+		flags.sample_all=1;	//all focal mechanisms can be sampled (one per iteration).
 	    }
 	else flags.sample_all=0;
 
