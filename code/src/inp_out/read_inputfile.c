@@ -79,7 +79,7 @@ int read_inputfile(char *input_fname, char *outname, char *fore_template,
 	char line[Nchar], listfocmeccat[Nchar];
 	char *key, *value;
 	int NP=19, i, err=0;
-	struct tm times0, times1, times2, times3;
+	struct tm times0, times1, times2, times3, times4;
 	int value_found[NP];
 	int listfm=0, nofm=0;	//listfm is a flag indicating whether multiple focal mechanism catalogs are given. nofm is the number of such catalogs.
 	char comment[]="#", comm=comment[0];
@@ -166,7 +166,7 @@ int read_inputfile(char *input_fname, char *outname, char *fore_template,
 					if (Tstart && value_found[1]) *Tstart=difftime(mktime(&times1),mktime(&times0))*SEC2DAY;
 					if (Tend && value_found[2]) *Tend=difftime(mktime(&times2),mktime(&times0))*SEC2DAY;
 					if (tstartLL && value_found[17]) *tstartLL=difftime(mktime(&times3),mktime(&times0))*SEC2DAY;
-					if (tendLL && value_found[18]) *tendLL=difftime(mktime(&times3),mktime(&times0))*SEC2DAY;
+					if (tendLL && value_found[18]) *tendLL=difftime(mktime(&times4),mktime(&times0))*SEC2DAY;
 					break;
 
 				case 1:
@@ -245,11 +245,11 @@ int read_inputfile(char *input_fname, char *outname, char *fore_template,
 					if (tstartLL && value_found[0]) *tstartLL=difftime(mktime(&times3),mktime(&times0))*SEC2DAY;
 					break;
 				case 18:
-					sscanf(value, "%d-%d-%dT%d:%d:%dZ", &(times3.tm_year), &(times3.tm_mon), &(times3.tm_mday), &(times3.tm_hour), &(times3.tm_min), &(times3.tm_sec));
-					times3.tm_year-=1900;
-					times3.tm_mon-=1;
-					times3.tm_isdst=0;
-					if (tendLL && value_found[0]) *tendLL=difftime(mktime(&times3),mktime(&times0))*SEC2DAY;
+					sscanf(value, "%d-%d-%dT%d:%d:%dZ", &(times4.tm_year), &(times4.tm_mon), &(times4.tm_mday), &(times4.tm_hour), &(times4.tm_min), &(times4.tm_sec));
+					times4.tm_year-=1900;
+					times4.tm_mon-=1;
+					times4.tm_isdst=0;
+					if (tendLL && value_found[0]) *tendLL=difftime(mktime(&times4),mktime(&times0))*SEC2DAY;
 					break;
 			}
 		}
