@@ -91,6 +91,10 @@ Catalog files. ZMAP format:
 
 * optional columns. If not given, will use default values: 1km (hor. error), 5km (vert. error), 0.1 (magnitude error). There are hardwired in the source file: code/src/inp_out/read_zmap.c
 
+Note: for the InputBackgroundRateCatalog file, the completeness magnitude is estimated by using the Maximum Curvature method (Zhuang et al, 2011, Techniques for Analyzing Seismicity Basic models of seismicity: Temporal models") unless the catalog name contains the string: "McX.X", where X.X is the completeness magnitude. In that case, CRS use all events with Mw>=X.X
+
+
+
 6.InputCatalogFocMecFile
 ----------------------
 The catalog of focal mechanisms has the format of the GeoNet cvs files (but with tab/space separated columns).

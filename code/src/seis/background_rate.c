@@ -48,8 +48,19 @@ int background_rate(char *catfile, struct crust *crst_in, struct tm reftime,
 	double T, *rate_h=NULL, *rate_v=NULL;
 	int h_ind, v_ind, *sel, sel_no=0, err;
 	double *weights=NULL;
-	cat.Mc=20.0;	//by convention, this value will make readZMAP find completeness magnitude.
+	char *Mcstr; //string that will contain completeness magnitude info if catfile is contains the string "Mc"
 
+        Mcstr=strstr(catfile,"Mc");
+	if (!Mcstr){
+		cat.Mc=20.0;	//by convention, this value will make readZMAP find completeness magnitude.
+		print_screen("Mc for catalog file %s now known: will estimate it using Maximum Curvature.", catfile);
+		print_logfile("Mc for catalog file %s now known: will estimate it using Maximum Curvature.", catfile);
+	}
+	else{	//parse string to find Mc.
+		sscanf(Mcstr,"Mc%lf", &(cat.Mc));
+		print_screen("Catalog %s: will use Mc=%.2f\n", catfile, cat.Mc);
+		print_logfile("Catalog %s: will use Mc=%.2f\n", catfile, cat.Mc);
+	}
 	read_firstlineZMAP(catfile, reftime, &t0);	//just to know starting time
 	err=readZMAP(&cat, (struct eqkfm **) 0, NULL, catfile, crst, reftime, t0, 0.0, t0, 0.0, 10, 0.0, dR, dZ, 0.0, 0);
 
