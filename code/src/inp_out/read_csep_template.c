@@ -236,8 +236,8 @@ int read_csep_template(char *fname, int *no_magbins, int *nlat, int *nlon,
 			   }
 			}
 			else{
-				(*rate)[n]=1;
-				for (int i=n1-nmag+1; i<=n1; i++)(*rate)[n]+= data[9-miss_col][i];
+				(*rate)[n]=0;
+				for (int i=n1-nmag+1; i<=n1; i++)(*rate)[n]+= data[9-miss_col][i];				
 			}
 		}
 
