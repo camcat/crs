@@ -83,7 +83,10 @@ Additional documentation
 ------------------------
 
 The formats of the input files and output files are described in doc/inputformats.readme and doc/outputformats.readme
-Template input files are provided in the folder: doc/examples/
+Template input files are provided in the folders: 
+	doc/examples-simple: simplified templates to generate a forecast using only slip models as sources and without inverting for optimal rate-state parameters.
+	doc/examples/: detailed templates with explaination of every available option.
+
 The folder: tutorial/ contains input and output files for a tutorial described in the file tutoria/tutorial.pdf
 
 

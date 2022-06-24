@@ -1,0 +1,17 @@
+#This is a simplified version of the input file, set up to generate a forecast from slip models. See doc/examples/example_inputfile.txt for the full documentation, including parameter inversion and other stress sources.
+#----------------------------------------------------------------------------#
+#IssueDate (format: YYYY-MM-DDTHH:MM:SSZ). This represents the time at which a forecast is supposedly produced: only stress sources up to this time are included. It can be the actual date of a prospective experiment, or a past date for a pseudo-prospective one.
+#ForecastStartDate, ForecastEndDate. Start and end time of the forecast.   
+IssueDate=2004-09-30T17:15:24Z
+ForecastStartDate=2004-09-30T17:15:24Z
+ForecastEndDate=2005-10-15T17:15:24Z
+#
+#Paths to input files.
+InputListSlipModels=input/slipmods.txt
+InputModelParametersFile=input/params.txt
+ForecastTemplate=input/grid.dat
+#Optional output paths
+#OutputForecastFile: Path to output files (without extension). If not given, it will be set to "output".
+#Logfile: Path to the log file. If not given, there will be no log file.
+#Logfile=output.log
+#OutputForecastFile=output

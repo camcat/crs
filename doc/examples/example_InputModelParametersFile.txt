@@ -2,7 +2,7 @@
 #       Coulomb stress parameters             #
 #=============================================#
 #
-# 1. Msource, extra_dist: Minimum magnitude of events to be used as stress sources; extra distance oudside model domain for which sources should be included (both horizontal/vertical distance, km).
+# 1. Msource, extra_dist: Minimum magnitude of events to be used as stress sources; extra distance oudside model domain for which sources should be included (both horizontal/vertical distance, km). Note that events with a slip model will be used regardless of their magnitude and location.
 #    If a spatially variable background rate r0(x) is estimated from a catalog, Msource is also used as minimum mainshock magnitude for declustering the catalog.
 # 2. source_mode_focmec (iso/fm), source_mode_nofocmec (no/iso/fix):
 #    source_mode_focmed controls how sources with a known focal mechanisms are treated: as isotropic sources (iso) or with synthetic slip models from the focal mechanisms (fm).
@@ -19,7 +19,7 @@ fm	iso
 80      1e6
 5000.0	1000.0
 #=============================================#
-#          Parameter Inversion	              #
+#          Rate-State Parameters              #
 #=============================================#
 # Section controling the inversion of Rate-and-State parameters (Asigma, ta, r0).
 # The inversion is based on maximizing the LogLikelihood, using a simple a grid search algorithm. 
