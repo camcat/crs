@@ -384,6 +384,11 @@ int read_inputfile(char *input_fname, char *outname, char *fore_template,
 					}
 					if (background_rate_grid) strcpy(background_rate_grid,"");
 					break;
+				case 13: 
+					print_screen("Warning: parameter %s not given in %s, will use default value.\n", keys[n], input_fname);
+					print_logfile("Warning: parameter %s not given in %s, will use default value.\n", keys[n], input_fname);
+					*seed=-37284630;
+					break;
 				case 14:
 					if (Logfile) strcpy(Logfile,"");
 					break;
@@ -427,6 +432,10 @@ int read_inputfile(char *input_fname, char *outname, char *fore_template,
 		MPI_Bcast(num_fm, 				1, MPI_INT, 0, MPI_COMM_WORLD);
 		MPI_Bcast(&nofm, 				1, MPI_INT, 0, MPI_COMM_WORLD);
 		MPI_Bcast(&focmeccatIsNull, 	1, MPI_INT, 0, MPI_COMM_WORLD);
+		// Broadcase these again since they may have changed.
+		MPI_Bcast(tstartLL, 			 	 1,   MPI_DOUBLE, 0, MPI_COMM_WORLD);
+		MPI_Bcast(tendLL, 			 	 1,   MPI_DOUBLE, 0, MPI_COMM_WORLD);
+		MPI_Bcast(seed, 				 1,   MPI_LONG,   0, MPI_COMM_WORLD);
 
 		if(procId != 0) {
 			if(focmeccatIsNull) {

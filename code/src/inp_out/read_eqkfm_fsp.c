@@ -232,8 +232,6 @@ int read_fsp_eqkfm(char *fname, struct eqkfm **eqfm_out, int *NF_out) {
 				//np_di, np_st are also given in the file (Nx, Nz), but only once -> what about models in which each subfault has different no of patches?
 				(*eqfm_out)[f].np_di=round(((*eqfm_out)[f].W/dW));
 				(*eqfm_out)[f].np_st=round(((*eqfm_out)[f].L/dL));
-				print_screen("W=%.3f, dW=%.3f\n", (*eqfm_out)[f].W, dW);
-				print_screen("L=%.3f, dL=%.3f\n", (*eqfm_out)[f].L, dL);
 				(*eqfm_out)[f].pos_d=darray(1,ndi_nst);
 				(*eqfm_out)[f].pos_s=darray(1,ndi_nst);
 				(*eqfm_out)[f].slip_str=darray(1,ndi_nst);
