@@ -20,6 +20,7 @@
 
 #include "read_crust.h"
 #include "read_matrix.h"
+#include "read_csv.h"
 
 #ifdef _CRS_MPI
 	#include "mpi.h"

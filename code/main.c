@@ -329,8 +329,8 @@ int main (int argc, char **argv) {
 					modelparametersfile, infile);
 		}
 		else{
-			print_screen("InputCatalogFile not given: will not use catalog. No seismic sources will be used (even if a slip model is provided).\n");
-			print_logfile("InputCatalogFile not given: will not use catalog. No seismic sources will be used (even if a slip model is provided).\n");
+			print_screen("InputCatalogFile not given: will not use catalog. No seismic sources will be used unless a slip model is provided.\n");
+			print_logfile("InputCatalogFile not given: will not use catalog. No seismic sources will be used unless a slip model is provided.\n");
 		}
 	}
 

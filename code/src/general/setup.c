@@ -63,7 +63,7 @@ int setup_catalogetc(char *catname, char **focmeccat, int nofmcat,
  * catname:	ZMAP catalog file
  * focmeccat:	list of focal mechanisms catalog files [0...nofmcat-1]
  * nofmcat:	number of focal mechanisms catalogs
- * reftime: IssueTime (times will be calcualted with reference to this time)
+ * reftime: IssueTime (times will be calculated with reference to this time)
  * dDCFS:	min. value for which grid points should be selected for calculating stress changes from source events
  * Mag_source: min magnitude of earthquakes to be used as sources of stress.
  * Mag_main:	magnitude of mainshocks (i.e. events which are included as sources also if flags.aftershocks==0)

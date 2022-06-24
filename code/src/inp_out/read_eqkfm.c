@@ -64,7 +64,7 @@ int eqkfm_addslipmodels(struct eqkfm *eqfm1, struct slipmodels_list all_slipmode
 	int N2, N3=0, c_evfound=0;
 	int *nf2, nsm, nfaults;
 	int c2=0, c3=0;	//counters.
-	int err=0, err0, j;
+	int err=0, err0, j, emptycat;
 	int *all_pts, p;
 	int no_synthetic_slipmodels=0, no_slipmodels=0;
 	static struct set_of_models dummy_parentsetofmodels;
@@ -111,12 +111,32 @@ int eqkfm_addslipmodels(struct eqkfm *eqfm1, struct slipmodels_list all_slipmode
 	}
 
 	//[check] make sure mmain is already assigned here!! (NB: all this may not be needed if clear association b/w cat and foc mec is given).
-	which_slipmod = combine_cats(all_slipmodels.tmain, timesfromeqkfm(eqfm1, N1, (int *) 0),
-								 all_slipmodels.mmain, magssfromeqkfm(eqfm1, N1, (int *) 0 ),
-								 all_slipmodels.NSM, N1, dt, dmag);
+	
+	emptycat=0;
+
+	if (N1==0){		
+	     for (int i=0; i<all_slipmodels.NSM; i++){
+   	  	     if (all_slipmodels.tmain[i]<0) N1++;
+	     }
+             which_slipmod = iarray(0,N1-1);
+	     N1=0;
+	     for (int i=0; i<all_slipmodels.NSM; i++){
+   	  	     if (all_slipmodels.tmain[i]<0) {
+			     which_slipmod[N1]=i;
+			     N1++;
+		     }
+	     }
+	     print_screen("Empty catalog: will use all slip models prior to IssueTime (eqkfm_addslipmodels).\n");
+	     print_logfile("Empty catalog: will use all slip models prior to IssueTime (eqkfm_addslipmodels).\n");
+	     emptycat=1;
+	}
+
+	else which_slipmod = combine_cats(all_slipmodels.tmain, timesfromeqkfm(eqfm1, N1, (int *) 0), all_slipmodels.mmain, magssfromeqkfm(eqfm1, N1, (int *) 0 ), all_slipmodels.NSM, N1, dt, dmag);
+	
+
 
 	//calculate tot. no. of faults needed:
-	for (int i=0; i<N1; i++){
+	for(int i=0; i<N1; i++){
 		N3= (which_slipmod[i]==-1)? N3+1 : N3+ nf2[which_slipmod[i]];
 	}
 
@@ -194,8 +214,13 @@ int eqkfm_addslipmodels(struct eqkfm *eqfm1, struct slipmodels_list all_slipmode
 			nsm=0;
 			for (int n=0; n<j; n++) nsm+=all_slipmodels.no_slipmodels[n];
 			c2=0;
-			print_screen("Using slip model %s for large event at t=%.5e, mag=%.2lf\n", all_slipmodels.slipmodels[nsm], eqfm1[i].t, eqfm1[i].mag);
-			print_logfile("Using slip model %s for large event at t=%.5e, mag=%.2lf\n", all_slipmodels.slipmodels[nsm], eqfm1[i].t, eqfm1[i].mag);
+			if (!emptycat){
+				print_screen("Using slip model %s for large event at t=%.5e, mag=%.2lf\n", all_slipmodels.slipmodels[nsm], eqfm1[i].t, eqfm1[i].mag);
+				print_logfile("Using slip model %s for large event at t=%.5e, mag=%.2lf\n", all_slipmodels.slipmodels[nsm], eqfm1[i].t, eqfm1[i].mag);}
+			else {
+				print_screen("Using slip model %s.\n", all_slipmodels.slipmodels[nsm]);
+				print_logfile("Using slip model %s.\n", all_slipmodels.slipmodels[nsm]);
+			}
 
 			err += setup_eqkfm_element((*eqfm_comb)+c3, all_slipmodels.slipmodels+nsm, all_slipmodels.cmb_format,
 									   all_slipmodels.no_slipmodels[j], crst.mu,
@@ -204,8 +229,15 @@ int eqkfm_addslipmodels(struct eqkfm *eqfm1, struct slipmodels_list all_slipmode
 
 			if (nfout)(*nfout)[*Ncomb]=nf2[which_slipmod[i]];
 			for (int cc3=c3; cc3<c3+nf2[which_slipmod[i]]; cc3++) {
-				(*eqfm_comb)[c3].distance=eqfm1[i].distance;
-				(*eqfm_comb)[c3].index_cat=eqfm1[i].index_cat;
+				if (!emptycat){
+	 				(*eqfm_comb)[c3].distance=eqfm1[i].distance;
+ 					(*eqfm_comb)[c3].index_cat=eqfm1[i].index_cat;
+				}
+				else{
+					//Distance not used for slip models.
+					(*eqfm_comb)[c3].distance=NULL; 
+					(*eqfm_comb)[c3].index_cat=-1;
+				}
 			}
 			c3+=nf2[which_slipmod[i]];
 			c_evfound+=1;

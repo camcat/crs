@@ -12,6 +12,7 @@ C_SRCS += \
 ../code/src/inp_out/read_focmec.c \
 ../code/src/inp_out/read_inputfile.c \
 ../code/src/inp_out/read_matrix.c \
+../code/src/inp_out/read_csv.c \
 ../code/src/inp_out/read_param.c \
 ../code/src/inp_out/read_zmap.c \
 ../code/src/inp_out/write_csep_forecast.c
@@ -25,6 +26,7 @@ OBJS += \
 ./code/src/inp_out/read_focmec.o \
 ./code/src/inp_out/read_inputfile.o \
 ./code/src/inp_out/read_matrix.o \
+./code/src/inp_out/read_csv.o \
 ./code/src/inp_out/read_param.o \
 ./code/src/inp_out/read_zmap.o \
 ./code/src/inp_out/write_csep_forecast.o
@@ -38,6 +40,7 @@ C_DEPS += \
 ./code/src/inp_out/read_focmec.d \
 ./code/src/inp_out/read_inputfile.d \
 ./code/src/inp_out/read_matrix.d \
+./code/src/inp_out/read_csv.d \
 ./code/src/inp_out/read_param.d \
 ./code/src/inp_out/read_zmap.d \
 ./code/src/inp_out/write_csep_forecast.d

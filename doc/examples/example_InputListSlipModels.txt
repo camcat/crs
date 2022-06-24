@@ -1,5 +1,5 @@
 # This file lists the slip model for seismic sources.
-# It hs the following format:
+# It has the following format:
 #
 # 1. number of events
 # 2. format	flag_geom

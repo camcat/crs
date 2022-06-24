@@ -114,7 +114,9 @@ int read_fsp_eqkfm(char *fname, struct eqkfm **eqfm_out, int *NF_out) {
 
 	if(procId == 0) {
 		find_key(fin, "Nsg", &value);
-		nf = (int) value;
+	        nf = (int) value;
+		find_key(fin, "Dx", &dL);
+		find_key(fin, "Dz", &dW);
 	}
 
 	#ifdef _CRS_MPI
@@ -213,7 +215,7 @@ int read_fsp_eqkfm(char *fname, struct eqkfm **eqfm_out, int *NF_out) {
 					ndi_nst=(int) value;
 					find_key(fin, "Dx", &dL);
 					find_key(fin, "Dz", &dW);
-				}
+			}
 				#ifdef _CRS_MPI
 					MPI_Bcast(&(*eqfm_out)[f].str1, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 					MPI_Bcast(&(*eqfm_out)[f].dip1, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
@@ -230,6 +232,8 @@ int read_fsp_eqkfm(char *fname, struct eqkfm **eqfm_out, int *NF_out) {
 				//np_di, np_st are also given in the file (Nx, Nz), but only once -> what about models in which each subfault has different no of patches?
 				(*eqfm_out)[f].np_di=round(((*eqfm_out)[f].W/dW));
 				(*eqfm_out)[f].np_st=round(((*eqfm_out)[f].L/dL));
+				print_screen("W=%.3f, dW=%.3f\n", (*eqfm_out)[f].W, dW);
+				print_screen("L=%.3f, dL=%.3f\n", (*eqfm_out)[f].L, dL);
 				(*eqfm_out)[f].pos_d=darray(1,ndi_nst);
 				(*eqfm_out)[f].pos_s=darray(1,ndi_nst);
 				(*eqfm_out)[f].slip_str=darray(1,ndi_nst);
@@ -439,7 +443,7 @@ int read_slipvalues(FILE *fin, struct eqkfm *eqfm){
 		}
 
 		if (!rakefound){
-			print_screen("** Warning: could not find field named RAKE. Will use global value (%.3lf). **\n", rake0);
+			//print_screen("** Warning: could not find field named RAKE. Will use global value (%.3lf). **\n", rake0);
 			print_logfile("** Warning: could not find field named RAKE. Will use global value (%.3lf). **\n", rake0);
 		}
 	}

@@ -20,6 +20,7 @@
 
 #include "read_focmec.h"
 #include "read_matrix.h"
+#include "read_csv.h"
 
 #ifdef _CRS_MPI
 	#include "mpi.h"
@@ -210,7 +211,7 @@ int readfocmec(char *focmecfile, struct crust crst,
 	int NFM2=0, NFM2sources=0;
 	long NFM0;
 	int ignore_time=0;
-	int err=0;
+	int err=0, is_csv=0;
 	int H, lat_col, lon_col, dep_col, mag_col, str_col, dip_col, rake_col, time_col;	//H=no. of header lines.
 	struct tm ev;
 	char timestr[20];
@@ -230,6 +231,10 @@ int readfocmec(char *focmecfile, struct crust crst,
 		NFMmax = (fm2==1)? 2*countline(focmecfile) : countline(focmecfile);
 		NC = countcol_header(focmecfile,1);	//assume one header line (safer than counting columns in header, which may have unwanted spaces);
 		if (NC==-1) countcol(focmecfile); //previous function will return -1 is the file has a single line (and no header); in this case, count columns of this line.
+		if (NC==1){
+			is_csv=1;
+			NC=countcol_csv(focmecfile);
+		}
 	}
 
 	#ifdef _CRS_MPI
@@ -260,7 +265,8 @@ int readfocmec(char *focmecfile, struct crust crst,
 	times=darray(1,NFMmax);
 
 	if(procId == 0) {
-		err = read_matrix(focmecfile, NC, H, focmec0, &NFM0);
+		if (is_csv) err = read_csv(focmecfile, NC, H, focmec0, &NFM0);
+		else err = read_matrix(focmecfile, NC, H, focmec0, &NFM0);
 	}
 
 	#ifdef _CRS_MPI

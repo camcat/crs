@@ -6,7 +6,7 @@
 #    If a spatially variable background rate r0(x) is estimated from a catalog, Msource is also used as minimum mainshock magnitude for declustering the catalog.
 # 2. source_mode_focmec (iso/fm), source_mode_nofocmec (no/iso/fix):
 #    source_mode_focmed controls how sources with a known focal mechanisms are treated: as isotropic sources (iso) or with synthetic slip models from the focal mechanisms (fm).
-#    source_mode_nofocmec controls out a known focal mechanism are treated: ignored (no), as isotropic sources (iso), with synthetic slip models from the uniform regional mechanism (fix).
+#    source_mode_nofocmec controls how sources without a known focal mechanism are treated: ignored (no), as isotropic sources (iso), with synthetic slip models from the uniform regional mechanism (fix).
 #	note: if source_mode_focmec=iso, source_mode_nofocmec will also automatically be set to "iso" (since there is no distinction between the two event types).
 # 3. fm_res: Resolution (patch length, km) of the synthetic slip models created from focal mechanisms. If the resolution is small enough that a multiple-patch model is created, this model will be tapered on each side (instead of simply uniform slip).
 # 4. DCFS_min, DCFS_cap (Pa):

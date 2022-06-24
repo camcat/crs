@@ -32,6 +32,7 @@
 #include "../util/util1.h"
 #include "../general/eqkfm_copy.h"
 #include "read_matrix.h"
+#include "read_csv.h"
 
 int readmultiplefocmec(char **focmecfiles, int nofiles,
 					   struct crust crst, double, double, double dDCFS,
