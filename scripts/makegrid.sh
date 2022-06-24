@@ -1,4 +1,7 @@
-#/bin/bash
+#!/bin/bash
+# Script to make a grid to use as input in CRS.
+# Grid formt: lon lat dep Mmin Mmax
+# Note that this format does not allow to use a finer mesh at run time. See ../doc/inputformats.readme for more information.
 
 #Set ranges and resolution:
 lat0=-43;
