@@ -3,7 +3,7 @@ function [data, lons, lats] =  map_something(f, ops);
 % ops can be: 
 %  "switch_latlon"
 %  "fun" ( will apply function to column 9), 
-%  "flatten" will get rid of depth dimension: if flatten='sum' or flatten='avg' adds up; if flatten is a function, will perform that operation (e.g. can set ops.flatten=@(x) sum(x,3) to get max value)
+%  "flatten" will get rid of depth dimension: if flatten='sum' or flatten='avg' adds up; if flatten is a function, will perform that operation (e.g. can set ops.flatten=@(x) max(x,3) to get max value)
 %  "field" will use a user input field instead of col. 9
 %  "cloud" = 1 will assume that data has format: [lon lat dep Mmin Mmax rate XX] instead of [lon0 lon1 lat0 lat1 ...]
 %  "clim" color axis
