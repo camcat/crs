@@ -41,7 +41,9 @@ end
 if (nmags==1);
   if (nargin>1 && isfield(ops,'switch_latlon'))
     grid=reshape(f(:,9), nlon, nlat, ndep);
-    grid=grid';
+    if ndep==1 grid=grid';
+    else grid=permute(grid,[2 1 3]);
+    end
   else
     grid=reshape(f(:,9), nlat, nlon, ndep);
   end
@@ -49,7 +51,6 @@ else
   if (nargin>1 && isfield(ops,'switch_latlon'))
     grid=reshape(f(:,9), nmags, nlon, nlat, ndep);
     grid=squeeze(sum(grid,1));
-    grid=grid';
   else
     grid=reshape(f(:,9), nmags, nlat, nlon, ndep);
     grid=squeeze(sum(grid,1));
