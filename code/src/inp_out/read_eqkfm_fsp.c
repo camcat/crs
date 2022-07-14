@@ -205,7 +205,10 @@ int read_fsp_eqkfm(char *fname, struct eqkfm **eqfm_out, int *NF_out) {
 				if(procId == 0) {
 					find_key(fin, "STRIKE", &(*eqfm_out)[f].str1);
 					find_key(fin, "DIP", &(*eqfm_out)[f].dip1);
-					find_key(fin, "RAKE", &(*eqfm_out)[f].rake1);
+					if (find_key(fin, "RAKE", &(*eqfm_out)[f].rake1)==0){
+					   (*eqfm_out)[f].rake1=rake0;
+					}
+				
 					find_key(fin, "LEN", &(*eqfm_out)[f].L);
 					find_key(fin, "WID", &(*eqfm_out)[f].W);
 					find_key(fin, "Z2top", &(*eqfm_out)[f].depth);
@@ -441,7 +444,7 @@ int read_slipvalues(FILE *fin, struct eqkfm *eqfm){
 		}
 
 		if (!rakefound){
-			//print_screen("** Warning: could not find field named RAKE. Will use global value (%.3lf). **\n", rake0);
+			print_screen("** Warning: could not find field named RAKE. Will use global value (%.3lf). **\n", rake0);
 			print_logfile("** Warning: could not find field named RAKE. Will use global value (%.3lf). **\n", rake0);
 		}
 	}
